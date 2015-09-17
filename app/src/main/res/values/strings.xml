@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">Scouting</string>
-
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-
-    <string name="hello_world">Hello world!</string>
-
     <string name="action_settings">Settings</string>
+
+    <!-- Titles -->
+    <string name="title_Identification">Identification Setup</string>
+    <string name="title_Auto">Autonomus Period</string>
+    <string name="title_Teleop">Teleoperated Period</string>
+
+    <!-- Setup Layout -->
+    <!-- Text Lables -->
+    <string name="person_Name">Your name:</string>
+    <string name="team_Name">"Team name:</string>
+    <string name="team_Number">Team number:</string>
+    <!--  -->
+
+
 </resources>
