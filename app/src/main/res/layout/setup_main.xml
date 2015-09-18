@@ -17,7 +17,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/person_Name"
         android:id="@+id/personNameTextView" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +33,6 @@
         android:text="@string/team_Name"
         android:id="@+id/teamNameTextView"
         android:layout_gravity="center_horizontal" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,12 +46,21 @@
         android:text="@string/team_Number"
         android:id="@+id/teamNumberTextView"
         android:layout_gravity="center_horizontal" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/teamNumberEditText" />
+
+    <!-- Progression button -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_Next_Setup"
+        android:id="@+id/setup_Next_Setup"
+        android:onClick="go"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp" />
 
 </LinearLayout>
