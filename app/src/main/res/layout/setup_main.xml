@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/person_Name"
-            android:id="@+id/personNameTextView" />
+            android:id="@+id/setupPersonNameTextView" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/personNameEditText"
+            android:id="@+id/setupPersonNameEditText"
             android:layout_gravity="center_horizontal" />
 
         <!-- Team name -->
@@ -35,12 +35,12 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/team_Name"
-            android:id="@+id/teamNameTextView"
+            android:id="@+id/setupTeamNameTextView"
             android:layout_gravity="center_horizontal" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/teamNameEditText" />
+            android:id="@+id/setupTeamNameEditText" />
 
         <!-- Team number -->
         <TextView
@@ -48,14 +48,14 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/team_Number"
-            android:id="@+id/teamNumberTextView"
+            android:id="@+id/setupTeamNumberTextView"
             android:layout_gravity="center_horizontal" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/teamNumberEditText" />
+            android:id="@+id/setupTeamNumberEditText" />
 
         <!-- Progression button -->
         <Button
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_Next_Setup"
             android:id="@+id/setup_Next_Setup"
-            android:onClick="go"
+            android:onClick="changePageUp"
             android:layout_gravity="center_horizontal"
             android:textSize="25dp" />
 

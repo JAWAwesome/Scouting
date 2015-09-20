@@ -18,10 +18,26 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_Next_Auto"
+            android:text="@string/button_Back_Teleop"
             android:id="@+id/button_Back_Auto"
-            android:onClick="go"
+            android:onClick="changePageDown"
             android:layout_gravity="center_horizontal"
             android:textSize="25dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_Save_Teleop"
+            android:id="@+id/button_Save_Teleop"
+            android:onClick="wrapUp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_Close_Save_Teleop"
+            android:id="@+id/button_Close_Save__Teleop"
+            android:onClick="closeWrapUp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"/>
     </LinearLayout>
 </ScrollView>

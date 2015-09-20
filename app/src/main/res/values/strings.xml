@@ -30,5 +30,7 @@
 
     <!-- Button names -->
     <string name="button_Back_Teleop">Go back to Auto</string>
+    <string name="button_Save_Teleop">Save to Storage</string>
+    <string name="button_Close_Save_Teleop">Save and Close</string>
 
 </resources>

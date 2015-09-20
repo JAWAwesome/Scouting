@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_Next_Auto"
             android:id="@+id/button_Next_Auto"
-            android:onClick="go"
+            android:onClick="changePageUp"
             android:layout_gravity="center_horizontal"
             android:textSize="25dp" />
         <Button
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_Back_Auto"
             android:id="@+id/button_Back_Auto"
-            android:onClick="go"
+            android:onClick="changePageDown"
             android:layout_gravity="center_horizontal"
             android:textSize="25dp" />
     </LinearLayout>
