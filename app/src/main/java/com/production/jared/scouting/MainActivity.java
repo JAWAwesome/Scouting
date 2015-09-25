@@ -1,6 +1,7 @@
 package com.production.jared.scouting;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.os.Build;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
     // Used to set up the csv file initially
     public void setUpScoutingCSV() {
         String outputText = "";
+        outputText += "Time Stamp,";
         outputText += "Person Name,";
         outputText += "Team Name,";
         outputText += "Team Number,";
@@ -244,15 +247,21 @@ public class MainActivity extends AppCompatActivity {
 
     // Gather all the files
     public void gatherAll() {
+        // Print time stamp
+        Calendar c = Calendar.getInstance();
+        print(c.MONTH + "/" + c.DAY_OF_MONTH + "/" + c.YEAR + "/" + c.HOUR_OF_DAY + "/" + c.MINUTE + "/" + c.SECOND + "/" + c.MILLISECOND);
+
         //print(personName.getText().toString()+"");
         //personName.setText("");
-        print(constants.DEFAULTPERSONNAME+",");
+        print(constants.DEFAULTPERSONNAME + ",");
         //print(teamName.getText().toString() + "");
         //teamName.setText("");
         print(constants.DEFAULTTEAMNAME+",");
         //print(teamNumber.getText().toString() + "");
         //teamNumber.setText("");
         print(constants.DEFAULTTEAMNUMBER+",");
+
+        // New line
         print("\n");
         makeToast("File Saved");
     }
