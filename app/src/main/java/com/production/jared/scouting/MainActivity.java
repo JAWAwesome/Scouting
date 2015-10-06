@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
@@ -23,7 +24,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,42 +63,6 @@ public class MainActivity extends AppCompatActivity {
         // Super Call
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
-
-        // File printing related stuff
-        // Hide keyboard from opening when app opens
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        // Check media mounted state
-        fileAccessAvailable = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-        // Check file access
-        if (fileAccessAvailable) {
-            log("File storage is available");
-            // Create file
-            location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), fileName);
-            // Check if the file already exists before printing to it
-            fileAlreadyExists = location.exists();
-            log("The file: " + location.toString() + "  exists: " + fileAlreadyExists);
-            // Create the printer
-            printer = new FilePrint(location);
-            if (!fileAlreadyExists) {
-                try {
-                    location.createNewFile();
-                } catch (Exception e) {
-                    log(e.getMessage()+"");
-                }
-                setUpScoutingCSV();
-            }
-        } else {
-            toast("The file storage is unavailable");
-        }
-
-
-
-
-
         // Pager thing
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -139,12 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Create a save based on time thread
+        // Create a save based on time thread and setup
+        fileSetup();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 log("Thread running");
                 loadToSharedPreferences();
+                log("Loaded to preferences");
             }
         },30,30, TimeUnit.SECONDS);
 
@@ -191,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        fileSetup();
         pullFromPreferencesAndLoadToUI();
     }
 
@@ -212,6 +182,36 @@ public class MainActivity extends AppCompatActivity {
 
 
     // App code that is not UI related
+    // Setup the file printing stuff
+    public void fileSetup () {
+        // File printing related stuff
+        // Hide keyboard from opening when app opens
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        // Check media mounted state
+        fileAccessAvailable = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+        // Check file access
+        if (fileAccessAvailable) {
+            log("File storage is available");
+            // Create file
+            location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), fileName);
+            // Check if the file already exists before printing to it
+            fileAlreadyExists = location.exists();
+            log("The file: " + location.toString() + "  exists: " + fileAlreadyExists);
+            // Create the printer
+            printer = new FilePrint(location);
+            if (!fileAlreadyExists) {
+                try {
+                    location.createNewFile();
+                } catch (Exception e) {
+                    log(e.getMessage()+"");
+                }
+                setUpScoutingCSV();
+            }
+        } else {
+            toast("The file storage is unavailable");
+        }
+    }
+
     // Used to set up the csv file initially
     public void setUpScoutingCSV() {
         String outputText = "";
@@ -309,6 +309,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Button to delete file
+    public void deleteFile(View view) {
+        // Verify that the file was supposed to be deleted
+        final Dialog dialog = new Dialog(this);
+        // use the layout file created
+        dialog.setContentView(R.layout.popup_window);
+        dialog.setTitle("Warning!");
+        // Find the buttons
+        Button delete=(Button)dialog.findViewById(R.id.button_PopUp_Delete);
+        Button cancel=(Button)dialog.findViewById(R.id.button_PopUp_Cancel);
+        // Show
+        dialog.show();
+        // Look to make sure the buttons are intentional
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Delete file
+                dialog.dismiss();
+                log("deleting file");
+                location.delete();
+                toast("File Deleted");
+                fileSetup();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Cancel delete
+                dialog.dismiss();
+                log("file delete cancelled");
+            }
+        });
+
+    }
+
+    // Button to share file
+    public void  shareFile(View view) {
+
+    }
+
     // Button to increase position
     public void changePageUp(View view) {
         hideKeyboard(view);
@@ -339,9 +379,11 @@ public class MainActivity extends AppCompatActivity {
     // Back up the inputs to the shared preferences location
     public void loadToSharedPreferences() {
         // Initializer the UI components for use in app
+        /*
         personName = (EditText) mSectionsPagerAdapter.getItem(0).getView().findViewById(R.id.setupTeamNameEditText);
         teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
         teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
+        */
 
         // 12/01/2011 4:48:16 PM
         Date date = new Date();
@@ -349,9 +391,16 @@ public class MainActivity extends AppCompatActivity {
         String formattedDate = sdf.format(date);
 
         sharedPreferences.edit().putString(constants.TIMESTAMP,formattedDate).apply();
+
+        /*
         sharedPreferences.edit().putString(constants.PERSON_NAME,personName.getText().toString()).apply();
         sharedPreferences.edit().putString(constants.TEAM_NAME,teamName.getText().toString()).apply();
         sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber.getText().toString()).apply();
+        */
+
+        sharedPreferences.edit().putString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NAME,constants.TEAM_NAME).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NUMBER,constants.TEAM_NUMBER).apply();
 
         sharedPreferences.edit().putString(constants.AUTO_ACTION_1,constants.AUTO_ACTION_1).apply();
         sharedPreferences.edit().putString(constants.AUTO_ACTION_2,constants.AUTO_ACTION_2).apply();

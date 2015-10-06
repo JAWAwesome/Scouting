@@ -32,5 +32,13 @@
     <string name="button_Back_Teleop">Go back to Auto</string>
     <string name="button_Save_Teleop">Save to Storage</string>
     <string name="button_Close_Save_Teleop">Save and Close</string>
+    <string name="button_Delete_File">Delete the File</string>
+
+    <!-- PopUp Window -->
+    <!-- Text Description -->
+    <string name="popup_Window_Message">Are you sure you want to delete?</string>
+    <!-- Button Names -->
+    <string name="button_PopUp_Continue">Yes Delete</string>
+    <string name="button_PopUp_Cancel">No Do Not Delete</string>
 
 </resources>
