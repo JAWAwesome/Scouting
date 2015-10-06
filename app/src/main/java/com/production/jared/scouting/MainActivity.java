@@ -1,9 +1,14 @@
 package com.production.jared.scouting;
 
 import java.io.File;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     FilePrint printer;
+    SharedPreferences sharedPreferences;
+    ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     // Constants
     public static final String fileName = "Robotics Scouting.csv";
@@ -45,12 +51,21 @@ public class MainActivity extends AppCompatActivity {
     EditText teamName;
     EditText teamNumber;
 
+
+
+
+
+    // Function thing required for app by android
     protected void onCreate(Bundle savedInstanceState) {
         // Super Call
         super.onCreate(savedInstanceState);
-
-        // Initializations
         setContentView(R.layout.activity_main);
+
+
+
+
+
+        // File printing related stuff
         // Hide keyboard from opening when app opens
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         // Check media mounted state
@@ -74,10 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 setUpScoutingCSV();
             }
         } else {
-            makeToast("The file storage is unavailable");
+            toast("The file storage is unavailable");
         }
 
-        // UI components
+
+
+
+
+        // Pager thing
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -93,17 +112,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPosition = position;
-                makeToast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
+                toast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-        // Set defaults
+
+
+
+
+
+        // Listener for changes in preferences
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                if (key.equals(constants.PERSON_NAME_PREFERENCE)) {
+                    // Update person name from settings
+                }
+            }
+        });
+
+
+
+
+
+        // Create a save based on time thread
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                log("Thread running");
+                loadToSharedPreferences();
+            }
+        },30,30, TimeUnit.SECONDS);
+
+
+
+
+
+        // Initializer the UI components for use in app
+        /*
         personName = (EditText) findViewById(R.id.setupPersonNameEditText);
         teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
         teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
+        */
     }
 
     @Override
@@ -128,23 +182,53 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        loadToSharedPreferences();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pullFromPreferencesAndLoadToUI();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        loadToSharedPreferences();
+        pullFromPreferencesAndPrint();
+        close();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+
+
+
+
+    // App code that is not UI related
     // Used to set up the csv file initially
     public void setUpScoutingCSV() {
         String outputText = "";
-        outputText += "Time Stamp,";
-        outputText += "Person Name,";
-        outputText += "Team Name,";
-        outputText += "Team Number,";
-        outputText += "Auto Action 1 Name,";
-        outputText += "Auto Action 2 Name,";
-        outputText += "Auto Action 3 Name,";
-        outputText += "Auto Action 4 Name,";
-        outputText += "Auto Action 5 Name,";
-        outputText += "Teleop Action 1 Name,";
-        outputText += "Teleop Action 2 Name,";
-        outputText += "Teleop Action 3 Name,";
-        outputText += "Teleop Action 4 Name,";
-        outputText += "Teleop Action 5 Name,";
+        outputText += constants.TIMESTAMP+";";
+        outputText += constants.PERSON_NAME+",";
+        outputText += constants.TEAM_NAME+",";
+        outputText += constants.TEAM_NUMBER+",";
+        outputText += constants.AUTO_ACTION_1+",";
+        outputText += constants.AUTO_ACTION_2+",";
+        outputText += constants.AUTO_ACTION_3+",";
+        outputText += constants.AUTO_ACTION_4+",";
+        outputText += constants.AUTO_ACTION_5+",";
+        outputText += constants.TELEOP_ACTION_1+",";
+        outputText += constants.TELEOP_ACTION_2+",";
+        outputText += constants.TELEOP_ACTION_3+",";
+        outputText += constants.TELEOP_ACTION_4+",";
+        outputText += constants.TELEOP_ACTION_5+",";
         outputText += "\n";
         print(outputText);
     }
@@ -167,6 +251,13 @@ public class MainActivity extends AppCompatActivity {
     public void close() {
         printer.close();
     }
+
+    // Log a message
+    public void log(String msg) {
+        Log.i(TAG, msg);
+    }
+
+
 
 
     // UI things
@@ -245,37 +336,73 @@ public class MainActivity extends AppCompatActivity {
                 InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
-    // Gather all the files
-    public void gatherAll() {
-        // Print time stamp
-        Calendar c = Calendar.getInstance();
-        print(c.MONTH + "/" + c.DAY_OF_MONTH + "/" + c.YEAR + "/" + c.HOUR_OF_DAY + "/" + c.MINUTE + "/" + c.SECOND + "/" + c.MILLISECOND);
+    // Back up the inputs to the shared preferences location
+    public void loadToSharedPreferences() {
+        // Initializer the UI components for use in app
+        personName = (EditText) mSectionsPagerAdapter.getItem(0).getView().findViewById(R.id.setupTeamNameEditText);
+        teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
+        teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
 
-        //print(personName.getText().toString()+"");
-        //personName.setText("");
-        print(constants.DEFAULTPERSONNAME + ",");
-        //print(teamName.getText().toString() + "");
-        //teamName.setText("");
-        print(constants.DEFAULTTEAMNAME+",");
-        //print(teamNumber.getText().toString() + "");
-        //teamNumber.setText("");
-        print(constants.DEFAULTTEAMNUMBER+",");
+        // 12/01/2011 4:48:16 PM
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+        String formattedDate = sdf.format(date);
 
-        // New line
+        sharedPreferences.edit().putString(constants.TIMESTAMP,formattedDate).apply();
+        sharedPreferences.edit().putString(constants.PERSON_NAME,personName.getText().toString()).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NAME,teamName.getText().toString()).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber.getText().toString()).apply();
+
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,constants.AUTO_ACTION_1).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,constants.AUTO_ACTION_2).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,constants.AUTO_ACTION_3).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,constants.AUTO_ACTION_4).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,constants.AUTO_ACTION_5).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,constants.TELEOP_ACTION_1).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,constants.TELEOP_ACTION_2).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,constants.TELEOP_ACTION_3).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,constants.TELEOP_ACTION_4).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,constants.TELEOP_ACTION_5).apply();
+        log("Shared Preferences Saved");
+    }
+
+    // Grab all the shared preferences to put back to UI
+    public void pullFromPreferencesAndLoadToUI() {
+
+    }
+
+    // Gather all the files from the preferences and print
+    public void pullFromPreferencesAndPrint() {
+        print(sharedPreferences.getString(constants.TIMESTAMP,constants.DEFAULT_TIMESTAMP)+",");
+        print(sharedPreferences.getString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME)+",");
+        print(sharedPreferences.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME)+",");
+        print(sharedPreferences.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER)+",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1)+",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2)+",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3)+",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4)+",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5)+",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1)+",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2)+",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3)+",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4)+",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_5,constants.DEFAULT_TELEOP_ACTION_5));
         print("\n");
-        makeToast("File Saved");
+        toast("File Saved");
     }
 
     // Save file
     public void wrapUp(View view) {
-        gatherAll();
+        loadToSharedPreferences();
+        pullFromPreferencesAndPrint();
         changePageDown(view);
         changePageDown(view);
     }
 
     // Close and save
     public void closeWrapUp(View view) {
-        gatherAll();
+        loadToSharedPreferences();
+        pullFromPreferencesAndPrint();
         close();
         if (Build.VERSION.SDK_INT>=21) {
             finishAndRemoveTask();
@@ -284,13 +411,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Log a message
-    public void log(String msg) {
-        Log.i(TAG, msg);
-    }
-
     // Display toast
-    public void makeToast(String msg) {
+    public void toast(String msg) {
         log("Toast: " + msg);
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
