@@ -9,7 +9,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean fileAccessAvailable;
 
     // UI components
+    Fragment setup;
+    Fragment auto;
+    Fragment teleop;
     EditText personName;
     EditText teamName;
     EditText teamNumber;
@@ -115,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 loadToSharedPreferences();
                 log("Loaded to preferences");
             }
-        },30,30, TimeUnit.SECONDS);
+        },15,15, TimeUnit.SECONDS);
 
 
 
@@ -276,13 +281,17 @@ public class MainActivity extends AppCompatActivity {
             // Return a Fragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return SetupMain.newInstance();
+                    setup = SetupMain.newInstance();
+                    return setup;
                 case 1:
-                    return AutoMain.newInstance();
+                    auto = AutoMain.newInstance();
+                    return auto;
                 case 2:
-                    return TeleopMain.newInstance();
+                    teleop = TeleopMain.newInstance();
+                    return teleop;
                 default:
-                    return SetupMain.newInstance();
+                    setup = SetupMain.newInstance();
+                    return setup;
             }
         }
 
@@ -307,6 +316,48 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    // Button to open the finishing dialog
+    public void done(View view) {
+        // Ask what to do
+        final Dialog dialog = new Dialog(this);
+        // use the layout file created
+        dialog.setContentView(R.layout.done_popup_window);
+        dialog.setTitle("What next!");
+        Button save= (Button)dialog.findViewById(R.id.button_Save_Popup_Done);
+        Button saveClose= (Button)dialog.findViewById(R.id.button_Close_Save_Popup_Done);
+        Button share= (Button)dialog.findViewById(R.id.button_Share_File_Popup_Done);
+        Button delete= (Button)dialog.findViewById(R.id.button_Delete_File_Popup_Done);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                wrapUp(v);
+            }
+        });
+        saveClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                closeWrapUp(v);
+            }
+        });
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                shareFile(v);
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                deleteFile(v);
+            }
+        });
+        dialog.show();
     }
 
     // Button to delete file
@@ -345,8 +396,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Button to share file
-    public void  shareFile(View view) {
-
+    public void shareFile(View view) {
+        // Close to send
+        loadToSharedPreferences();
+        pullFromPreferencesAndPrint();
+        close();
+        // Create chooser option
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(location));
+        // Display
+        startActivity(Intent.createChooser(share,"Share a CSV"));
+        // Restart the file writer
+        fileSetup();
     }
 
     // Button to increase position
@@ -380,10 +442,11 @@ public class MainActivity extends AppCompatActivity {
     public void loadToSharedPreferences() {
         // Initializer the UI components for use in app
         /*
-        personName = (EditText) mSectionsPagerAdapter.getItem(0).getView().findViewById(R.id.setupTeamNameEditText);
         teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
         teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
         */
+       // personName = (EditText) .findViewById(R.id.setupPersonNameEditText);
+
 
         // 12/01/2011 4:48:16 PM
         Date date = new Date();
@@ -391,14 +454,13 @@ public class MainActivity extends AppCompatActivity {
         String formattedDate = sdf.format(date);
 
         sharedPreferences.edit().putString(constants.TIMESTAMP,formattedDate).apply();
+        sharedPreferences.edit().putString(constants.PERSON_NAME,personName.getText().toString()).apply();
 
         /*
-        sharedPreferences.edit().putString(constants.PERSON_NAME,personName.getText().toString()).apply();
         sharedPreferences.edit().putString(constants.TEAM_NAME,teamName.getText().toString()).apply();
         sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber.getText().toString()).apply();
         */
 
-        sharedPreferences.edit().putString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME).apply();
         sharedPreferences.edit().putString(constants.TEAM_NAME,constants.TEAM_NAME).apply();
         sharedPreferences.edit().putString(constants.TEAM_NUMBER,constants.TEAM_NUMBER).apply();
 
@@ -417,7 +479,20 @@ public class MainActivity extends AppCompatActivity {
 
     // Grab all the shared preferences to put back to UI
     public void pullFromPreferencesAndLoadToUI() {
-
+        sharedPreferences.getString(constants.TIMESTAMP,constants.DEFAULT_TIMESTAMP);
+        sharedPreferences.getString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME);
+        sharedPreferences.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME);
+        sharedPreferences.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER);
+        sharedPreferences.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1);
+        sharedPreferences.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2);
+        sharedPreferences.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3);
+        sharedPreferences.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4);
+        sharedPreferences.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5);
+        sharedPreferences.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1);
+        sharedPreferences.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2);
+        sharedPreferences.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3);
+        sharedPreferences.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4);
+        sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
     }
 
     // Gather all the files from the preferences and print

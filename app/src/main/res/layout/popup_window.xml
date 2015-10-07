@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
         <Button
             android:id="@+id/button_PopUp_Cancel"
             android:layout_marginTop="15dp"
@@ -28,7 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_PopUp_Cancel" />
-
         <Button
             android:id="@+id/button_PopUp_Delete"
             android:layout_marginTop="15dp"
@@ -37,7 +35,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/button_PopUp_Continue" />
-
     </LinearLayout>
-
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.EditText;
  * Created by Jared on 9/18/2015.
  */
 public class SetupMain extends Fragment {
+    EditText name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -18,10 +19,20 @@ public class SetupMain extends Fragment {
         return v;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view,savedInstanceState);
+        name = (EditText) view.findViewById(R.id.setupPersonNameEditText);
+    }
+
     public static Fragment newInstance() {
         SetupMain f = new SetupMain();
         Bundle b = new Bundle();
         f.setArguments(b);
         return f;
+    }
+
+    public EditText getEditText() {
+        return name;
     }
 }
