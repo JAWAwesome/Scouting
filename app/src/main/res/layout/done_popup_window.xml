@@ -20,7 +20,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Save_Teleop"
+        android:text="@string/button_Save_File"
         android:id="@+id/button_Save_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>
@@ -30,10 +30,20 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Close_Save_Teleop"
+        android:text="@string/button_Close_Save_File"
         android:id="@+id/button_Close_Save_Popup_Done"
         android:layout_gravity="center_horizontal"
-        android:textSize="25dp"/>\
+        android:textSize="25dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/button_Open_File"
+        android:id="@+id/button_Open_Popup_Done"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

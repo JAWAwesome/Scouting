@@ -36,8 +36,9 @@
     <!-- Text Descriptions -->
     <string name="done_Popup_Window_Message">What would you like to do?</string>
     <!-- Button Names -->
-    <string name="button_Save_Teleop">Save to Storage</string>
-    <string name="button_Close_Save_Teleop">Save and Close</string>
+    <string name="button_Save_File">Save to Storage</string>
+    <string name="button_Close_Save_File">Save and Close</string>
+    <string name="button_Open_File">Open the File</string>
     <string name="button_Delete_File">Delete the File</string>
     <string name="button_Share_File">Share the File</string>
 

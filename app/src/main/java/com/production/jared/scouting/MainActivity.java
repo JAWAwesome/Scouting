@@ -2,7 +2,9 @@ package com.production.jared.scouting;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -11,9 +13,13 @@ import java.util.concurrent.TimeUnit;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     FilePrint printer;
     SharedPreferences sharedPreferences;
     ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    static Handler sender;
 
     // Constants
     public static final String fileName = "Robotics Scouting.csv";
@@ -55,9 +62,20 @@ public class MainActivity extends AppCompatActivity {
     Fragment setup;
     Fragment auto;
     Fragment teleop;
-    EditText personName;
-    EditText teamName;
-    EditText teamNumber;
+    String personName = constants.DEFAULT_PERSON_NAME;
+    String teamName = constants.DEFAULT_TEAM_NAME;
+    String teamNumber = constants.DEFAULT_TEAM_NUMBER;
+    String autoAction1 = constants.DEFAULT_AUTO_ACTION_1;
+    String autoAction2 = constants.DEFAULT_AUTO_ACTION_2;
+    String autoAction3 = constants.DEFAULT_AUTO_ACTION_3;
+    String autoAction4 = constants.DEFAULT_AUTO_ACTION_4;
+    String autoAction5 = constants.DEFAULT_AUTO_ACTION_5;
+    String teleopAction1 = constants.DEFAULT_TELEOP_ACTION_1;
+    String teleopAction2 = constants.DEFAULT_TELEOP_ACTION_2;
+    String teleopAction3 = constants.DEFAULT_TELEOP_ACTION_3;
+    String teleopAction4 = constants.DEFAULT_TELEOP_ACTION_4;
+    String teleopAction5 = constants.DEFAULT_TELEOP_ACTION_5;
+
 
 
 
@@ -67,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Super Call
         super.onCreate(savedInstanceState);
+        log("OnCreate");
         setContentView(R.layout.activity_main);
         // Pager thing
         // Create the adapter that will return a fragment for each of the three
@@ -111,6 +130,62 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        // Handler used for messages
+        sender = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                log("Handler Called");
+                Bundle temp = msg.getData();
+                switch (msg.arg1) {
+                    case 0:
+                        personName = temp.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME);
+                        break;
+                    case 1:
+                        teamName = temp.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME);
+                        break;
+                    case 2:
+                        teamNumber = temp.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER);
+                        break;
+                    case 3:
+                        teamNumber = temp.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1);
+                        break;
+                    case 4:
+                        teamNumber = temp.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2);
+                        break;
+                    case 5:
+                        teamNumber = temp.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3);
+                        break;
+                    case 6:
+                        teamNumber = temp.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4);
+                        break;
+                    case 7:
+                        teamNumber = temp.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5);
+                        break;
+                    case 8:
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1);
+                        break;
+                    case 9:
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2);
+                        break;
+                    case 10:
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3);
+                        break;
+                    case 11:
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4);
+                        break;
+                    case 12:
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_5,constants.DEFAULT_TELEOP_ACTION_5);
+                        break;
+                    default: break;
+                }
+            }
+        };
+
+
+
+
+
         // Create a save based on time thread and setup
         fileSetup();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -126,12 +201,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Initializer the UI components for use in app
-        /*
-        personName = (EditText) findViewById(R.id.setupPersonNameEditText);
-        teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
-        teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
-        */
+        // Check to see if the last session was saved or not and print accordingly
+        if (!sharedPreferences.getBoolean(constants.SAVED_BY_USER,constants.DEFAULT_SAVED_STATE)) {
+            log("Printing last session bc it wasn't");
+            pullFromPreferencesAndPrint();
+            // Reset for this run in case it dies
+            sharedPreferences.edit().putBoolean(constants.SAVED_BY_USER,constants.DEFAULT_SAVED_STATE);
+        }
     }
 
     @Override
@@ -159,12 +235,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        log("OnPause");
         loadToSharedPreferences();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        log("OnResume");
         fileSetup();
         pullFromPreferencesAndLoadToUI();
     }
@@ -172,14 +250,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        loadToSharedPreferences();
-        pullFromPreferencesAndPrint();
+        log("OnStop");
         close();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        log("OnStart");
+        //ChangeText temp = (ChangeText)setup;
+        //temp.setValue("Balalalalah");
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        log("OnRestart");
     }
 
 
@@ -220,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
     // Used to set up the csv file initially
     public void setUpScoutingCSV() {
         String outputText = "";
-        outputText += constants.TIMESTAMP+";";
+        outputText += constants.TIMESTAMP+",";
         outputText += constants.PERSON_NAME+",";
         outputText += constants.TEAM_NAME+",";
         outputText += constants.TEAM_NUMBER+",";
@@ -281,16 +367,16 @@ public class MainActivity extends AppCompatActivity {
             // Return a Fragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    setup = SetupMain.newInstance();
+                    setup = SetupMain.newInstance(sender);
                     return setup;
                 case 1:
-                    auto = AutoMain.newInstance();
+                    auto = AutoMain.newInstance(sender);
                     return auto;
                 case 2:
-                    teleop = TeleopMain.newInstance();
+                    teleop = TeleopMain.newInstance(sender);
                     return teleop;
                 default:
-                    setup = SetupMain.newInstance();
+                    setup = SetupMain.newInstance(sender);
                     return setup;
             }
         }
@@ -327,8 +413,10 @@ public class MainActivity extends AppCompatActivity {
         dialog.setTitle("What next!");
         Button save= (Button)dialog.findViewById(R.id.button_Save_Popup_Done);
         Button saveClose= (Button)dialog.findViewById(R.id.button_Close_Save_Popup_Done);
+        Button open= (Button)dialog.findViewById(R.id.button_Open_Popup_Done);
         Button share= (Button)dialog.findViewById(R.id.button_Share_File_Popup_Done);
         Button delete= (Button)dialog.findViewById(R.id.button_Delete_File_Popup_Done);
+        // Call the button methods for their actions
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -355,6 +443,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 deleteFile(v);
+            }
+        });
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();;
+                openFile(v);
             }
         });
         dialog.show();
@@ -406,9 +501,30 @@ public class MainActivity extends AppCompatActivity {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(location));
         // Display
-        startActivity(Intent.createChooser(share,"Share a CSV"));
+        startActivity(Intent.createChooser(share, "Share a CSV"));
         // Restart the file writer
         fileSetup();
+    }
+
+    // Button to open the file
+    public void openFile(View view) {
+        close();
+        log("Opening file with default");
+        // Create the open intent
+        Intent open = new Intent();
+        open.setType(Intent.ACTION_VIEW);
+        open.setDataAndType(Uri.fromFile(location), "text/csv");
+        // Find the apps that can open it
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> apps = pm.queryIntentActivities(open, PackageManager.MATCH_DEFAULT_ONLY);
+        // Open if can
+        if(apps.size() > 0) {
+            log("Found the app: " + apps.get(0).toString());
+            startActivity(open);
+        }
+        else {
+            log("Not app found");
+        }
     }
 
     // Button to increase position
@@ -440,40 +556,25 @@ public class MainActivity extends AppCompatActivity {
 
     // Back up the inputs to the shared preferences location
     public void loadToSharedPreferences() {
-        // Initializer the UI components for use in app
-        /*
-        teamName = (EditText) findViewById(R.id.setupTeamNameEditText);
-        teamNumber = (EditText) findViewById(R.id.setupTeamNumberEditText);
-        */
-       // personName = (EditText) .findViewById(R.id.setupPersonNameEditText);
-
-
         // 12/01/2011 4:48:16 PM
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
         String formattedDate = sdf.format(date);
-
+        // Load from handler messages
         sharedPreferences.edit().putString(constants.TIMESTAMP,formattedDate).apply();
-        sharedPreferences.edit().putString(constants.PERSON_NAME,personName.getText().toString()).apply();
-
-        /*
-        sharedPreferences.edit().putString(constants.TEAM_NAME,teamName.getText().toString()).apply();
-        sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber.getText().toString()).apply();
-        */
-
-        sharedPreferences.edit().putString(constants.TEAM_NAME,constants.TEAM_NAME).apply();
-        sharedPreferences.edit().putString(constants.TEAM_NUMBER,constants.TEAM_NUMBER).apply();
-
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,constants.AUTO_ACTION_1).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,constants.AUTO_ACTION_2).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,constants.AUTO_ACTION_3).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,constants.AUTO_ACTION_4).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,constants.AUTO_ACTION_5).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,constants.TELEOP_ACTION_1).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,constants.TELEOP_ACTION_2).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,constants.TELEOP_ACTION_3).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,constants.TELEOP_ACTION_4).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,constants.TELEOP_ACTION_5).apply();
+        sharedPreferences.edit().putString(constants.PERSON_NAME,personName).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NAME,teamName).apply();
+        sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,autoAction1).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,autoAction2).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,autoAction3).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,autoAction4).apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,autoAction5).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,teleopAction1).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,teleopAction2).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,teleopAction3).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,teleopAction4).apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,teleopAction5).apply();
         log("Shared Preferences Saved");
     }
 
@@ -525,6 +626,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Close and save
     public void closeWrapUp(View view) {
+        sharedPreferences.edit().putBoolean(constants.SAVED_BY_USER,true).apply();
         loadToSharedPreferences();
         pullFromPreferencesAndPrint();
         close();
