@@ -2,7 +2,6 @@ package com.production.jared.scouting;
 
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,10 +26,19 @@ public class SetupMain extends Fragment implements ChangeText{
         return v;
     }
 
+    public static Fragment newInstance(Handler handler) {
+        // Used for the fragment
+        sender = handler;
+        SetupMain f = new SetupMain();
+        Bundle b = new Bundle();
+        f.setArguments(b);
+        return f;
+    }
+
     @Override
     public void onViewCreated(View v, Bundle b) {
         // Run after the fragment is made
-        super.onViewCreated(v,b);
+        super.onViewCreated(v, b);
         // Listen for the person name text to change
         v.findViewById(R.id.setupPersonNameEditText).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -60,47 +68,34 @@ public class SetupMain extends Fragment implements ChangeText{
                 log("Team number focus changed: " + hasFocus);
                 if (!hasFocus) {
                     // Send the changed text
-                    sendHandlerMessage(((EditText)v.findViewById(R.id.setupTeamNumberEditText)).getText().toString(),constants.HANDLER_TEAM_NUMBER);
+                    sendHandlerMessage(((EditText) v.findViewById(R.id.setupTeamNumberEditText)).getText().toString(), constants.HANDLER_TEAM_NUMBER);
                 }
             }
         });
-        // Listen for the view to change
-        v.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                log("View focus changed: " + hasFocus);
-                if (!hasFocus) {
-                    // Clear the focuses
-                    if (v.findViewById(R.id.setupPersonNameEditText).hasFocus()) {
-                        v.findViewById(R.id.setupPersonNameEditText).clearFocus();
-                    }
-                    if (v.findViewById(R.id.setupTeamNameEditText).hasFocus()) {
-                        v.findViewById(R.id.setupTeamNameEditText).clearFocus();
-                    }
-                    if (v.findViewById(R.id.setupTeamNumberEditText).hasFocus()) {
-                        v.findViewById(R.id.setupTeamNumberEditText).clearFocus();
-                    }
-                }
-            }
-        });
-    }
-
-    public static Fragment newInstance(Handler handler) {
-        // Used for the fragment
-        sender = handler;
-        SetupMain f = new SetupMain();
-        Bundle b = new Bundle();
-        f.setArguments(b);
-        return f;
     }
 
     @Override
     public void setText (int i,String msg) {
-        log(this.getTag() + " Message: " + msg);
         ((EditText)thisView.findViewById(i)).setText(msg);
-        log(((EditText)thisView.findViewById(i)).getText().toString());
+        log(((EditText) thisView.findViewById(i)).getText().toString());
     }
 
+    @Override
+    public void changeView() {
+        (thisView.findViewById(R.id.setupPersonNameEditText)).clearFocus();
+        (thisView.findViewById(R.id.setupTeamNameEditText)).clearFocus();
+        (thisView.findViewById(R.id.setupTeamNumberEditText)).clearFocus();
+        log(getActivity().findViewById(R.id.pager).requestFocus() + " :focused");
+    }
+
+    @Override
+    public void clear() {
+        ((EditText)thisView.findViewById(R.id.setupPersonNameEditText)).setText("");
+        ((EditText)thisView.findViewById(R.id.setupTeamNameEditText)).setText("");
+        ((EditText)thisView.findViewById(R.id.setupTeamNumberEditText)).setText("");
+    }
+
+    @Override
     public void sendHandlerMessage (String text, int arg) {
         // Send message with handler
         Message msg = sender.obtainMessage();
@@ -111,6 +106,7 @@ public class SetupMain extends Fragment implements ChangeText{
         sender.sendMessage(msg);
     }
 
+    @Override
     public void log(String msg) {
         Log.i(TAG,msg);
     }

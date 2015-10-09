@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 currentPosition = position;
                 toast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
+                changeView();
             }
 
             @Override
@@ -260,8 +261,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         log("OnStart");
-        //ChangeText temp = (ChangeText)setup;
-        //temp.setValue("Balalalalah");
     }
 
     @Override
@@ -410,6 +409,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Clear the text box values
+    public void clearValues(View view) {
+        setup.clear();
+        auto.clear();
+        teleop.clear();
+    }
+
+    // Change view to pull all handlers
+    public void changeView() {
+        setup.changeView();
+        auto.changeView();
+        teleop.changeView();
+    }
+
     // Button to open the finishing dialog
     public void done(View view) {
         // Ask what to do
@@ -538,6 +551,7 @@ public class MainActivity extends AppCompatActivity {
     // Button to increase position
     public void changePageUp(View view) {
         hideKeyboard(view);
+        changeView();
         if (currentPosition<2) {
             currentPosition ++;
         }
@@ -548,6 +562,7 @@ public class MainActivity extends AppCompatActivity {
     // Button to decrease position
     public void changePageDown(View view) {
         hideKeyboard(view);
+        changeView();
         if (currentPosition > 0) {
             currentPosition--;
         }
@@ -588,10 +603,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Grab all the shared preferences to put back to UI
     public void pullFromPreferencesAndLoadToUI() {
-        sharedPreferences.getString(constants.TIMESTAMP, constants.DEFAULT_TIMESTAMP);
-        sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME);
-        sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME);
-        sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER);
+        setup.setText(R.id.setupPersonNameEditText,sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME));
+        setup.setText(R.id.setupTeamNameEditText,sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME));
+        setup.setText(R.id.setupTeamNumberEditText,sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER));
         sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1);
         sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2);
         sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3);
@@ -628,6 +642,7 @@ public class MainActivity extends AppCompatActivity {
     public void wrapUp(View view) {
         loadToSharedPreferences();
         pullFromPreferencesAndPrint();
+        clearValues(view);
         changePageDown(view);
         changePageDown(view);
     }
@@ -643,11 +658,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             finish();
         }
-    }
-
-    // Set Text
-    public void set(View view) {
-        setup.setText(R.id.setupPersonNameEditText,"Balalalalah");
     }
 
     // Display toast

@@ -13,7 +13,7 @@ import android.widget.EditText;
 /**
  * Created by Jared on 9/18/2015.
  */
-public class TeleopMain extends Fragment {
+public class TeleopMain extends Fragment implements ChangeText{
     static Handler sender;
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
@@ -26,24 +26,6 @@ public class TeleopMain extends Fragment {
         return v;
     }
 
-    /*
-    @Override
-    public void onViewCreated(View v, Bundle b) {
-        // Run after the fragment is made
-        super.onViewCreated(v,b);
-        // Listen for the text to change
-        v.findViewById(R.id.setupPersonNameEditText).setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    // Send the changed text
-                    sendHandlerMessage(((EditText)v.findViewById(R.id.setupPersonNameEditText)).getText().toString());
-                }
-            }
-        });
-    }
-    */
-
     public static Fragment newInstance(Handler handler) {
         // Used for the fragment
         sender = handler;
@@ -53,17 +35,28 @@ public class TeleopMain extends Fragment {
         return f;
     }
 
-    public void sendHandlerMessage (String text, int arg) {
-        // Send message with handler
-        Message msg = sender.obtainMessage();
-        Bundle b = new Bundle();
-        b.putString(constants.PERSON_NAME,text);
-        msg.setData(b);
-        msg.arg1 = arg;
-        sender.sendMessage(msg);
+    @Override
+    public void setText(int i, String message) {
+
     }
 
-    public void log(String msg) {
-        Log.i(TAG, msg);
+    @Override
+    public void log(String message) {
+
+    }
+
+    @Override
+    public void sendHandlerMessage(String text, int arg) {
+
+    }
+
+    @Override
+    public void changeView() {
+
+    }
+
+    @Override
+    public void clear() {
+
     }
 }
