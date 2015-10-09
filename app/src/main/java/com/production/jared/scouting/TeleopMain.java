@@ -17,10 +17,12 @@ public class TeleopMain extends Fragment {
     static Handler sender;
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
+    View thisView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the Fragment
         View v = inflater.inflate(R.layout.teleop_main, container, false);
+        thisView = v;
         return v;
     }
 
@@ -51,17 +53,15 @@ public class TeleopMain extends Fragment {
         return f;
     }
 
-    /*
-    public void sendHandlerMessage (String text) {
+    public void sendHandlerMessage (String text, int arg) {
         // Send message with handler
         Message msg = sender.obtainMessage();
         Bundle b = new Bundle();
         b.putString(constants.PERSON_NAME,text);
         msg.setData(b);
-        msg.arg1 = constants.HANDLER_PERSON_NAME;
+        msg.arg1 = arg;
         sender.sendMessage(msg);
     }
-    */
 
     public void log(String msg) {
         Log.i(TAG, msg);

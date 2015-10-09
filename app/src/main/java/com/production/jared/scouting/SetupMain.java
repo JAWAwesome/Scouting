@@ -2,6 +2,7 @@ package com.production.jared.scouting;
 
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,15 +14,16 @@ import android.widget.EditText;
 /**
  * Created by Jared on 9/18/2015.
  */
-public class SetupMain extends Fragment implements ChangeText {
+public class SetupMain extends Fragment implements ChangeText{
     static Handler sender;
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
-    //View here;
+    View thisView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the fragment
         View v = inflater.inflate(R.layout.setup_main, container, false);
+        thisView = v;
         return v;
     }
 
@@ -29,7 +31,6 @@ public class SetupMain extends Fragment implements ChangeText {
     public void onViewCreated(View v, Bundle b) {
         // Run after the fragment is made
         super.onViewCreated(v,b);
-        //here = v;
         // Listen for the person name text to change
         v.findViewById(R.id.setupPersonNameEditText).setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -70,13 +71,13 @@ public class SetupMain extends Fragment implements ChangeText {
                 log("View focus changed: " + hasFocus);
                 if (!hasFocus) {
                     // Clear the focuses
-                    if (v.findViewById(R.id.setupPersonNameEditText).hasFocus()){
+                    if (v.findViewById(R.id.setupPersonNameEditText).hasFocus()) {
                         v.findViewById(R.id.setupPersonNameEditText).clearFocus();
                     }
-                    if (v.findViewById(R.id.setupTeamNameEditText).hasFocus()){
+                    if (v.findViewById(R.id.setupTeamNameEditText).hasFocus()) {
                         v.findViewById(R.id.setupTeamNameEditText).clearFocus();
                     }
-                    if (v.findViewById(R.id.setupTeamNumberEditText).hasFocus()){
+                    if (v.findViewById(R.id.setupTeamNumberEditText).hasFocus()) {
                         v.findViewById(R.id.setupTeamNumberEditText).clearFocus();
                     }
                 }
@@ -94,15 +95,17 @@ public class SetupMain extends Fragment implements ChangeText {
     }
 
     @Override
-    public void setValue(String msg) {
-        //((EditText)here.findViewById(R.id.setupPersonNameEditText)).setText(msg);
+    public void setText (int i,String msg) {
+        log(this.getTag() + " Message: " + msg);
+        ((EditText)thisView.findViewById(i)).setText(msg);
+        log(((EditText)thisView.findViewById(i)).getText().toString());
     }
 
     public void sendHandlerMessage (String text, int arg) {
         // Send message with handler
         Message msg = sender.obtainMessage();
         Bundle b = new Bundle();
-        b.putString(constants.PERSON_NAME,text);
+        b.putString(constants.PERSON_NAME, text);
         msg.setData(b);
         msg.arg1 = arg;
         sender.sendMessage(msg);

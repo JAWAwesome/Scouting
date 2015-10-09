@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -59,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean fileAccessAvailable;
 
     // UI components
-    Fragment setup;
-    Fragment auto;
-    Fragment teleop;
+    SetupMain setup;
+    AutoMain auto;
+    TeleopMain teleop;
+
     String personName = constants.DEFAULT_PERSON_NAME;
     String teamName = constants.DEFAULT_TEAM_NAME;
     String teamNumber = constants.DEFAULT_TEAM_NUMBER;
@@ -175,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                         teamNumber = temp.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4);
                         break;
                     case 12:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_5,constants.DEFAULT_TELEOP_ACTION_5);
+                        teamNumber = temp.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
                         break;
                     default: break;
                 }
@@ -367,16 +369,20 @@ public class MainActivity extends AppCompatActivity {
             // Return a Fragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    setup = SetupMain.newInstance(sender);
+                    setup = (SetupMain)SetupMain.newInstance(sender);
+                    Log.i(TAG,setup.getTag()+setup.getId());
                     return setup;
                 case 1:
-                    auto = AutoMain.newInstance(sender);
+                    auto = (AutoMain)AutoMain.newInstance(sender);
+                    Log.i(TAG,auto.getTag()+auto.getId());
                     return auto;
                 case 2:
-                    teleop = TeleopMain.newInstance(sender);
+                    teleop = (TeleopMain)TeleopMain.newInstance(sender);
+                    Log.i(TAG,teleop.getTag()+teleop.getId());
                     return teleop;
                 default:
-                    setup = SetupMain.newInstance(sender);
+                    setup = (SetupMain)SetupMain.newInstance(sender);
+                    Log.i(TAG,setup.getTag()+setup.getId());
                     return setup;
             }
         }
@@ -448,11 +454,12 @@ public class MainActivity extends AppCompatActivity {
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();;
+                dialog.dismiss();
                 openFile(v);
             }
         });
         dialog.show();
+        vibrate(1000);
     }
 
     // Button to delete file
@@ -467,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
         Button cancel=(Button)dialog.findViewById(R.id.button_PopUp_Cancel);
         // Show
         dialog.show();
+        vibrate(1000);
         // Look to make sure the buttons are intentional
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -580,19 +588,19 @@ public class MainActivity extends AppCompatActivity {
 
     // Grab all the shared preferences to put back to UI
     public void pullFromPreferencesAndLoadToUI() {
-        sharedPreferences.getString(constants.TIMESTAMP,constants.DEFAULT_TIMESTAMP);
-        sharedPreferences.getString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME);
-        sharedPreferences.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME);
-        sharedPreferences.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER);
-        sharedPreferences.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1);
-        sharedPreferences.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2);
-        sharedPreferences.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3);
-        sharedPreferences.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4);
-        sharedPreferences.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5);
-        sharedPreferences.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1);
-        sharedPreferences.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2);
-        sharedPreferences.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3);
-        sharedPreferences.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4);
+        sharedPreferences.getString(constants.TIMESTAMP, constants.DEFAULT_TIMESTAMP);
+        sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME);
+        sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME);
+        sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER);
+        sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1);
+        sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2);
+        sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3);
+        sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4);
+        sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5);
+        sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1);
+        sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2);
+        sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3);
+        sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4);
         sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
     }
 
@@ -600,18 +608,18 @@ public class MainActivity extends AppCompatActivity {
     public void pullFromPreferencesAndPrint() {
         print(sharedPreferences.getString(constants.TIMESTAMP,constants.DEFAULT_TIMESTAMP)+",");
         print(sharedPreferences.getString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME)+",");
-        print(sharedPreferences.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME)+",");
-        print(sharedPreferences.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER)+",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1)+",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2)+",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3)+",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4)+",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5)+",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1)+",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2)+",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3)+",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4)+",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_5,constants.DEFAULT_TELEOP_ACTION_5));
+        print(sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME) + ",");
+        print(sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER) + ",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1) + ",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2) + ",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3) + ",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4) + ",");
+        print(sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5) + ",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1) + ",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2) + ",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3) + ",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4) + ",");
+        print(sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5));
         print("\n");
         toast("File Saved");
     }
@@ -637,9 +645,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Set Text
+    public void set(View view) {
+        setup.setText(R.id.setupPersonNameEditText,"Balalalalah");
+    }
+
     // Display toast
     public void toast(String msg) {
         log("Toast: " + msg);
         Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
+    }
+
+    // Vibrate for a time
+    public void vibrate(long millis) {
+        Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        v.vibrate(millis);
     }
 }
