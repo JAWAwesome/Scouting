@@ -2,7 +2,6 @@ package com.production.jared.scouting;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,6 +21,8 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,11 +36,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import static android.app.ActionBar.NAVIGATION_MODE_TABS;
+
+public class MainActivity extends ActionBarActivity {
 
     // Objects
     SectionsPagerAdapter mSectionsPagerAdapter;
@@ -82,13 +84,26 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     // Function thing required for app by android
     protected void onCreate(Bundle savedInstanceState) {
         // Super Call
         super.onCreate(savedInstanceState);
         log("OnCreate");
         setContentView(R.layout.activity_main);
+
+
+
+
+
+        // Tabbed Action Bar
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(NAVIGATION_MODE_TABS);
+
+
+
+
+
         // Pager thing
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -105,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 currentPosition = position;
-                toast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
+                //toast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
+                actionBar.setSelectedNavigationItem(position);
                 changeView();
             }
 
@@ -113,6 +129,62 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+
+
+
+
+        // Add tabs
+        if (actionBar!=null) {
+            actionBar.addTab(actionBar.newTab().setText("Setup").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+                @Override
+                public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+                    mViewPager.setCurrentItem(0);
+                }
+
+                @Override
+                public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+
+                @Override
+                public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+            }));
+            actionBar.addTab(actionBar.newTab().setText("Auto").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+                @Override
+                public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+                    mViewPager.setCurrentItem(1);
+                }
+
+                @Override
+                public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+
+                @Override
+                public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+            }));
+            actionBar.addTab(actionBar.newTab().setText("Teleop").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+                @Override
+                public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+                    mViewPager.setCurrentItem(2);
+                }
+
+                @Override
+                public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+
+                @Override
+                public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+            }));
+        }
 
 
 
@@ -261,12 +333,34 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         log("OnStart");
+        changeView();
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
         log("OnRestart");
+    }
+
+    @Override
+    public void onBackPressed() {
+        log("On back called, confirming close");
+        vibrate(1000);
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Exit")
+                .setMessage("Are you sure you want to close the app?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loadToSharedPreferences();
+                        close();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
 
@@ -352,6 +446,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     // UI things
     // Used to do the fragment launching
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -411,16 +506,41 @@ public class MainActivity extends AppCompatActivity {
 
     // Clear the text box values
     public void clearValues(View view) {
-        setup.clear();
-        auto.clear();
-        teleop.clear();
+        try {
+            // UI Clear
+            setup.clear();
+            auto.clear();
+            teleop.clear();
+            log("Shared Preferences Saved");
+        } catch (Exception e) {
+            log("Failed to Clear Values: " + e.getStackTrace().toString());
+        }
+        // Preferences Clear
+        sharedPreferences.edit().putString(constants.TIMESTAMP,"").apply();
+        sharedPreferences.edit().putString(constants.PERSON_NAME,"").apply();
+        sharedPreferences.edit().putString(constants.TEAM_NAME,"").apply();
+        sharedPreferences.edit().putString(constants.TEAM_NUMBER,"").apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,"").apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,"").apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,"").apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,"").apply();
+        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,"").apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,"").apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,"").apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,"").apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,"").apply();
+        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,"").apply();
     }
 
     // Change view to pull all handlers
     public void changeView() {
-        setup.changeView();
-        auto.changeView();
-        teleop.changeView();
+        try {
+            setup.changeView();
+            auto.changeView();
+            teleop.changeView();
+        } catch (Exception e) {
+            log("Failed to Change View: " + e.getStackTrace().toString());
+        }
     }
 
     // Button to open the finishing dialog
@@ -508,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
                 log("file delete cancelled");
             }
         });
-
+        fileSetup();
     }
 
     // Button to share file
@@ -529,6 +649,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Button to open the file
     public void openFile(View view) {
+        loadToSharedPreferences();
+        pullFromPreferencesAndPrint();
         close();
         log("Opening file with default");
         // Create the open intent
@@ -546,6 +668,8 @@ public class MainActivity extends AppCompatActivity {
         else {
             log("Not app found");
         }
+        // Restart the file writer
+        fileSetup();
     }
 
     // Button to increase position
@@ -603,19 +727,23 @@ public class MainActivity extends AppCompatActivity {
 
     // Grab all the shared preferences to put back to UI
     public void pullFromPreferencesAndLoadToUI() {
-        setup.setText(R.id.setupPersonNameEditText,sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME));
-        setup.setText(R.id.setupTeamNameEditText,sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME));
-        setup.setText(R.id.setupTeamNumberEditText,sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER));
-        sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1);
-        sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2);
-        sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3);
-        sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4);
-        sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5);
-        sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1);
-        sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2);
-        sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3);
-        sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4);
-        sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
+        try {
+            setup.setText(R.id.setupPersonNameEditText, sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME));
+            setup.setText(R.id.setupTeamNameEditText, sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME));
+            setup.setText(R.id.setupTeamNumberEditText, sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER));
+            sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1);
+            sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2);
+            sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3);
+            sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4);
+            sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5);
+            sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1);
+            sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2);
+            sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3);
+            sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4);
+            sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
+        } catch (Exception e) {
+            log("Failed to load to gui: " + e.getStackTrace().toString());
+        }
     }
 
     // Gather all the files from the preferences and print

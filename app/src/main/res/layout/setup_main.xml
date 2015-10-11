@@ -62,6 +62,9 @@
             android:id="@+id/setup_Next_Setup"
             android:onClick="changePageUp"
             android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
+            android:textSize="25dp">
+        <requestFocus/>
+        </Button>
+
     </LinearLayout>
 </ScrollView>

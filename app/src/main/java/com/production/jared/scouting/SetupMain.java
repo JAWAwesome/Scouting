@@ -85,7 +85,7 @@ public class SetupMain extends Fragment implements ChangeText{
         (thisView.findViewById(R.id.setupPersonNameEditText)).clearFocus();
         (thisView.findViewById(R.id.setupTeamNameEditText)).clearFocus();
         (thisView.findViewById(R.id.setupTeamNumberEditText)).clearFocus();
-        log(getActivity().findViewById(R.id.pager).requestFocus() + " :focused");
+        log(getActivity().findViewById(R.id.button_Open_Popup_Done).requestFocus() + " :focused");
     }
 
     @Override
