@@ -9,6 +9,9 @@
     <string name="title_Teleop">Teleoperated Period</string>
 
 
+
+
+
     <!-- Setup Layout -->
     <!-- Text Lables -->
     <string name="person_Name">Your name:</string>
@@ -18,6 +21,9 @@
     <string name="button_Next_Setup">Go to Auto</string>
 
 
+
+
+
     <!-- Auto Layout -->
     <!--  -->
 
@@ -25,12 +31,20 @@
     <string name="button_Next_Auto">Go to Teleop</string>
     <string name="button_Back_Auto">Go back to Setup</string>
 
+
+
+
+
     <!-- Teleop Layout -->
     <!--  -->
 
     <!-- Button names -->
     <string name="button_Back_Teleop">Go back to Auto</string>
-    <string name="button_Done_Teleop">Done</string>
+    <string name="button_Done_Teleop">Finish Scouting</string>
+
+
+
+
 
     <!-- Done PopUp Window -->
     <!-- Text Descriptions -->
@@ -42,11 +56,15 @@
     <string name="button_Delete_File">Delete the File</string>
     <string name="button_Share_File">Share the File</string>
 
+
+
+
+
     <!-- PopUp Window -->
     <!-- Text Description -->
     <string name="popup_Window_Message">Are you sure you want to delete?</string>
     <!-- Button Names -->
     <string name="button_PopUp_Continue">Yes Delete</string>
-    <string name="button_PopUp_Cancel">No Do Not Delete</string>
+    <string name="button_PopUp_Cancel">No Delete</string>
 
 </resources>

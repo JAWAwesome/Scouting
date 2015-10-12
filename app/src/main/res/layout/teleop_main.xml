@@ -14,22 +14,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!-- Progression button -->
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_Back_Teleop"
-            android:id="@+id/button_Back_Teleop"
-            android:onClick="changePageDown"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_Done_Teleop"
-            android:id="@+id/button_Done_Teleop"
-            android:onClick="done"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <!-- Progression button -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_Back_Teleop"
+                android:id="@+id/button_Back_Teleop"
+                android:onClick="changePageDown"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textSize="25dp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_Done_Teleop"
+                android:id="@+id/button_Done_Teleop"
+                android:onClick="done"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textSize="25dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

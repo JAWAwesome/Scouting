@@ -14,22 +14,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!-- Progression buttons -->
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_Next_Auto"
-            android:id="@+id/button_Next_Auto"
-            android:onClick="changePageUp"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_Back_Auto"
-            android:id="@+id/button_Back_Auto"
-            android:onClick="changePageDown"
-            android:layout_gravity="center_horizontal"
-            android:textSize="25dp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <!-- Progression buttons -->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_Back_Auto"
+                android:id="@+id/button_Back_Auto"
+                android:onClick="changePageDown"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textSize="25dp" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_Next_Auto"
+                android:id="@+id/button_Next_Auto"
+                android:onClick="changePageUp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:textSize="25dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
