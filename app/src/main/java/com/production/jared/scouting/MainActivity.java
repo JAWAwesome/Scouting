@@ -301,6 +301,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent settings = new Intent(getApplicationContext(),Preferences.class);
+            startActivity(settings);
             return true;
         }
 
@@ -697,8 +699,7 @@ public class MainActivity extends ActionBarActivity {
     // Hide keyboard
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),
-                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
 
     // Back up the inputs to the shared preferences location

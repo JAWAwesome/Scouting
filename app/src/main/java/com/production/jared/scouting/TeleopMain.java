@@ -17,12 +17,12 @@ public class TeleopMain extends Fragment implements ChangeText{
     static Handler sender;
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
-    View thisView;
+    public View teleop;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the Fragment
         View v = inflater.inflate(R.layout.teleop_main, container, false);
-        thisView = v;
+        teleop = v;
         return v;
     }
 

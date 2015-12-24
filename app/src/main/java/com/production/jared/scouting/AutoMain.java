@@ -17,12 +17,13 @@ public class AutoMain extends Fragment implements ChangeText{
     static Handler sender;
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
-    View thisView;
+    public View auto;
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the fragment
         View v = inflater.inflate(R.layout.auto_main, container, false);
-        thisView = v;
+        auto = v;
         return v;
     }
 
