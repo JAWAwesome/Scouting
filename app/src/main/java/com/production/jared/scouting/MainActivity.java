@@ -2,6 +2,7 @@ package com.production.jared.scouting;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,56 +36,45 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import static android.app.ActionBar.NAVIGATION_MODE_TABS;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     // Objects
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     FilePrint printer;
+    BackupFileClass backUp;
     SharedPreferences sharedPreferences;
     ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     static Handler sender;
 
     // Constants
     public static final String fileName = "Robotics Scouting.csv";
+    public static final String backUpFileName = "backup.txt";
     public final String TAG = this.getClass().getName();
     Constants constants = new Constants();
 
     // Variables
     public int currentPosition = 0;
     public File location;
+    public File backUpLocation;
     public boolean fileAlreadyExists;
     public boolean fileAccessAvailable;
+    ArrayList<String> parameters = new ArrayList<String>();
 
     // UI components
     SetupMain setup;
+    PitScouting pits;
     AutoMain auto;
     TeleopMain teleop;
-
-    String personName = constants.DEFAULT_PERSON_NAME;
-    String teamName = constants.DEFAULT_TEAM_NAME;
-    String teamNumber = constants.DEFAULT_TEAM_NUMBER;
-    String autoAction1 = constants.DEFAULT_AUTO_ACTION_1;
-    String autoAction2 = constants.DEFAULT_AUTO_ACTION_2;
-    String autoAction3 = constants.DEFAULT_AUTO_ACTION_3;
-    String autoAction4 = constants.DEFAULT_AUTO_ACTION_4;
-    String autoAction5 = constants.DEFAULT_AUTO_ACTION_5;
-    String teleopAction1 = constants.DEFAULT_TELEOP_ACTION_1;
-    String teleopAction2 = constants.DEFAULT_TELEOP_ACTION_2;
-    String teleopAction3 = constants.DEFAULT_TELEOP_ACTION_3;
-    String teleopAction4 = constants.DEFAULT_TELEOP_ACTION_4;
-    String teleopAction5 = constants.DEFAULT_TELEOP_ACTION_5;
-
-
-
-
 
     // Function thing required for app by android
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +107,7 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                findViewById(R.id.dummyLocation).requestFocus();
             }
 
             @Override
@@ -122,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
                 currentPosition = position;
                 //toast(mViewPager.getAdapter().getPageTitle(currentPosition) + "");
                 actionBar.setSelectedNavigationItem(position);
-                changeView();
+                findViewById(R.id.dummyLocation).requestFocus();
             }
 
             @Override
@@ -152,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
 
                 }
             }));
-            actionBar.addTab(actionBar.newTab().setText("Auto").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+            actionBar.addTab(actionBar.newTab().setText("Pits").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
                 @Override
                 public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                     mViewPager.setCurrentItem(1);
@@ -168,10 +161,26 @@ public class MainActivity extends ActionBarActivity {
 
                 }
             }));
-            actionBar.addTab(actionBar.newTab().setText("Teleop").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+            actionBar.addTab(actionBar.newTab().setText("Auto").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
                 @Override
                 public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                     mViewPager.setCurrentItem(2);
+                }
+
+                @Override
+                public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+
+                @Override
+                public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+
+                }
+            }));
+            actionBar.addTab(actionBar.newTab().setText("Teleop").setTabListener(new android.support.v7.app.ActionBar.TabListener() {
+                @Override
+                public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
+                    mViewPager.setCurrentItem(3);
                 }
 
                 @Override
@@ -191,71 +200,14 @@ public class MainActivity extends ActionBarActivity {
 
 
         // Listener for changes in preferences
-        sharedPreferences = getPreferences(MODE_PRIVATE);
+        updatePreferences();
         sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                if (key.equals(constants.PERSON_NAME_PREFERENCE)) {
-                    // Update person name from settings
-                }
+                log("preferences changed");
+                updatePreferences();
             }
         });
-
-
-
-
-
-        // Handler used for messages
-        sender = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                log("Handler Called");
-                Bundle temp = msg.getData();
-                switch (msg.arg1) {
-                    case 0:
-                        personName = temp.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME);
-                        break;
-                    case 1:
-                        teamName = temp.getString(constants.TEAM_NAME,constants.DEFAULT_TEAM_NAME);
-                        break;
-                    case 2:
-                        teamNumber = temp.getString(constants.TEAM_NUMBER,constants.DEFAULT_TEAM_NUMBER);
-                        break;
-                    case 3:
-                        teamNumber = temp.getString(constants.AUTO_ACTION_1,constants.DEFAULT_AUTO_ACTION_1);
-                        break;
-                    case 4:
-                        teamNumber = temp.getString(constants.AUTO_ACTION_2,constants.DEFAULT_AUTO_ACTION_2);
-                        break;
-                    case 5:
-                        teamNumber = temp.getString(constants.AUTO_ACTION_3,constants.DEFAULT_AUTO_ACTION_3);
-                        break;
-                    case 6:
-                        teamNumber = temp.getString(constants.AUTO_ACTION_4,constants.DEFAULT_AUTO_ACTION_4);
-                        break;
-                    case 7:
-                        teamNumber = temp.getString(constants.AUTO_ACTION_5,constants.DEFAULT_AUTO_ACTION_5);
-                        break;
-                    case 8:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_1,constants.DEFAULT_TELEOP_ACTION_1);
-                        break;
-                    case 9:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_2,constants.DEFAULT_TELEOP_ACTION_2);
-                        break;
-                    case 10:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_3,constants.DEFAULT_TELEOP_ACTION_3);
-                        break;
-                    case 11:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_4,constants.DEFAULT_TELEOP_ACTION_4);
-                        break;
-                    case 12:
-                        teamNumber = temp.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
-                        break;
-                    default: break;
-                }
-            }
-        };
 
 
 
@@ -267,22 +219,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void run() {
                 log("Thread running");
-                loadToSharedPreferences();
+                backUp();
                 log("Loaded to preferences");
             }
         },15,15, TimeUnit.SECONDS);
-
-
-
-
-
-        // Check to see if the last session was saved or not and print accordingly
-        if (!sharedPreferences.getBoolean(constants.SAVED_BY_USER,constants.DEFAULT_SAVED_STATE)) {
-            log("Printing last session bc it wasn't");
-            pullFromPreferencesAndPrint();
-            // Reset for this run in case it dies
-            sharedPreferences.edit().putBoolean(constants.SAVED_BY_USER,constants.DEFAULT_SAVED_STATE);
-        }
     }
 
     @Override
@@ -302,7 +242,7 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent settings = new Intent(getApplicationContext(),Preferences.class);
-            startActivity(settings);
+            startActivityForResult(settings, 1);
             return true;
         }
 
@@ -313,7 +253,7 @@ public class MainActivity extends ActionBarActivity {
     public void onPause() {
         super.onPause();
         log("OnPause");
-        loadToSharedPreferences();
+        backUp();
     }
 
     @Override
@@ -321,13 +261,14 @@ public class MainActivity extends ActionBarActivity {
         super.onResume();
         log("OnResume");
         fileSetup();
-        pullFromPreferencesAndLoadToUI();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         log("OnStop");
+        backUp();
+        print();
         close();
     }
 
@@ -335,13 +276,13 @@ public class MainActivity extends ActionBarActivity {
     public void onStart() {
         super.onStart();
         log("OnStart");
-        changeView();
     }
 
     @Override
     public void onRestart() {
         super.onRestart();
         log("OnRestart");
+        backUp();
     }
 
     @Override
@@ -356,13 +297,22 @@ public class MainActivity extends ActionBarActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        loadToSharedPreferences();
+                        //loadToSharedPreferences();
+                        print();
                         close();
                         finish();
                     }
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    @Override
+    public void onActivityResult(int request, int result, Intent data) {
+        if (request == 1) {
+            log("preferences activity resulted, updating");
+            updatePreferences();
+        }
     }
 
 
@@ -382,6 +332,7 @@ public class MainActivity extends ActionBarActivity {
             log("File storage is available");
             // Create file
             location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), fileName);
+            backUpLocation = new File(this.getFilesDir(), backUpFileName);
             // Check if the file already exists before printing to it
             fileAlreadyExists = location.exists();
             log("The file: " + location.toString() + "  exists: " + fileAlreadyExists);
@@ -395,6 +346,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 setUpScoutingCSV();
             }
+            backUp = new BackupFileClass(backUpLocation);
         } else {
             toast("The file storage is unavailable");
         }
@@ -404,9 +356,20 @@ public class MainActivity extends ActionBarActivity {
     public void setUpScoutingCSV() {
         String outputText = "";
         outputText += constants.TIMESTAMP+",";
-        outputText += constants.PERSON_NAME+",";
+        outputText += constants.PERSON_NAME_PREFERENCE+",";
         outputText += constants.TEAM_NAME+",";
         outputText += constants.TEAM_NUMBER+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_TYPE+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_CONNECTION+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_WHEEL_COUNT+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_WHEEL_TYPE+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_MOTOR_COUNT+",";
+        outputText += constants.ROBOT_DRIVE_SYSTEM_SHIFTER_USE+",";
+        outputText += constants.ROBOT_WEIGHT+",";
+        outputText += constants.ROBOT_HEIGTH+",";
+        outputText += constants.ROBOT_WIDTH+",";
+        outputText += constants.ROBOT_LENGTH+",";
+        outputText += constants.ROBOT_QUALITY+",";
         outputText += constants.AUTO_ACTION_1+",";
         outputText += constants.AUTO_ACTION_2+",";
         outputText += constants.AUTO_ACTION_3+",";
@@ -417,15 +380,93 @@ public class MainActivity extends ActionBarActivity {
         outputText += constants.TELEOP_ACTION_3+",";
         outputText += constants.TELEOP_ACTION_4+",";
         outputText += constants.TELEOP_ACTION_5+",";
-        outputText += "\n";
-        print(outputText);
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(outputText);
+        if (fileAccessAvailable) {
+            try {
+                printer.print(temp);
+            } catch (Exception e) {
+                log("Unable to print");
+                log(e.getMessage() + "");
+            }
+        } else {
+            log("Can't print because no file access");
+        }
+    }
+
+    // Get values
+    public void getValues() {
+        // 12/01/2011 4:48:16 PM
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+        String formattedDate = sdf.format(date);
+        parameters.add(formattedDate + ",");
+
+        try {
+            for (String here : setup.get()) {
+                if (here != null) {
+                    parameters.add(here);
+                }
+            }
+        } catch (Exception e) {
+            log(e.getStackTrace().toString());
+        }
+
+        try {
+            for (String here : pits.get()) {
+                if (here != null) {
+                    parameters.add(here);
+                }
+            }
+        } catch (Exception e) {
+            log(e.getStackTrace().toString());
+        }
+
+        try {
+            for (String here : auto.get()) {
+                if (here != null) {
+                    parameters.add(here);
+                }
+            }
+        } catch (Exception e) {
+            log(e.getStackTrace().toString());
+        }
+
+        try {
+            for (String here : teleop.get()) {
+                if (here != null) {
+                    parameters.add(here);
+                }
+            }
+        } catch (Exception e) {
+            log(e.getStackTrace().toString());
+        }
+
     }
 
     // Used to safely print text and save the ui
-    public void print(String textToPrint) {
+    public void print() {
+        parameters.clear();
+        getValues();
         if (fileAccessAvailable) {
             try {
-                printer.print(textToPrint);
+                printer.print(parameters);
+            } catch (Exception e) {
+                log("Unable to print");
+                log(e.getMessage() + "");
+            }
+        } else {
+            log("Can't print because no file access");
+        }
+    }
+
+    // Used to save the current state
+    public void backUp() {
+        backUp = new BackupFileClass(backUpLocation);
+        getValues();
+        if (fileAccessAvailable) {
+            try {
+                backUp.print(parameters);
             } catch (Exception e) {
                 log("Unable to print");
                 log(e.getMessage() + "");
@@ -438,6 +479,7 @@ public class MainActivity extends ActionBarActivity {
     // Close the file because done writing
     public void close() {
         printer.close();
+        backUp.close();
     }
 
     // Log a message
@@ -469,10 +511,14 @@ public class MainActivity extends ActionBarActivity {
                     Log.i(TAG,setup.getTag()+setup.getId());
                     return setup;
                 case 1:
+                    pits = (PitScouting)PitScouting.newInstance(sender);
+                    Log.i(TAG,pits.getTag()+pits.getId());
+                    return pits;
+                case 2:
                     auto = (AutoMain)AutoMain.newInstance(sender);
                     Log.i(TAG,auto.getTag()+auto.getId());
                     return auto;
-                case 2:
+                case 3:
                     teleop = (TeleopMain)TeleopMain.newInstance(sender);
                     Log.i(TAG,teleop.getTag()+teleop.getId());
                     return teleop;
@@ -486,8 +532,8 @@ public class MainActivity extends ActionBarActivity {
         // Give the count of pages
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages.
+            return 4;
         }
 
         // Give section title
@@ -498,51 +544,25 @@ public class MainActivity extends ActionBarActivity {
                 case 0:
                     return getString(R.string.title_Identification).toUpperCase(l);
                 case 1:
-                    return getString(R.string.title_Auto).toUpperCase(l);
+                    return getString(R.string.title_Pits).toUpperCase(l);
                 case 2:
+                    return getString(R.string.title_Auto).toUpperCase(l);
+                case 3:
                     return getString(R.string.title_Teleop).toUpperCase(l);
             }
             return null;
         }
     }
 
-    // Clear the text box values
-    public void clearValues(View view) {
-        try {
-            // UI Clear
-            setup.clear();
-            auto.clear();
-            teleop.clear();
-            log("Shared Preferences Saved");
-        } catch (Exception e) {
-            log("Failed to Clear Values: " + e.getStackTrace().toString());
-        }
-        // Preferences Clear
-        sharedPreferences.edit().putString(constants.TIMESTAMP,"").apply();
-        sharedPreferences.edit().putString(constants.PERSON_NAME,"").apply();
-        sharedPreferences.edit().putString(constants.TEAM_NAME,"").apply();
-        sharedPreferences.edit().putString(constants.TEAM_NUMBER,"").apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,"").apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,"").apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,"").apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,"").apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,"").apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,"").apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,"").apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,"").apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,"").apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,"").apply();
+    // Used to update preference reference
+    public void updatePreferences() {
+        log("Updating preferences");
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-    // Change view to pull all handlers
-    public void changeView() {
-        try {
-            setup.changeView();
-            auto.changeView();
-            teleop.changeView();
-        } catch (Exception e) {
-            log("Failed to Change View: " + e.getStackTrace().toString());
-        }
+    // Clear the text box values
+    public void clearValues(View view) {
+        recreate();
     }
 
     // Button to open the finishing dialog
@@ -636,8 +656,7 @@ public class MainActivity extends ActionBarActivity {
     // Button to share file
     public void shareFile(View view) {
         // Close to send
-        loadToSharedPreferences();
-        pullFromPreferencesAndPrint();
+        print();
         close();
         // Create chooser option
         Intent share = new Intent(Intent.ACTION_SEND);
@@ -651,8 +670,7 @@ public class MainActivity extends ActionBarActivity {
 
     // Button to open the file
     public void openFile(View view) {
-        loadToSharedPreferences();
-        pullFromPreferencesAndPrint();
+        print();
         close();
         log("Opening file with default");
         // Create the open intent
@@ -676,111 +694,44 @@ public class MainActivity extends ActionBarActivity {
 
     // Button to increase position
     public void changePageUp(View view) {
-        hideKeyboard(view);
-        changeView();
-        if (currentPosition<2) {
+        hideKeyboard(this);
+        if (currentPosition<3) {
             currentPosition ++;
         }
         mViewPager.setCurrentItem(currentPosition);
+        findViewById(R.id.dummyLocation).requestFocus();
         log("Position Changed Up");
     }
 
     // Button to decrease position
     public void changePageDown(View view) {
-        hideKeyboard(view);
-        changeView();
+        hideKeyboard(this);
         if (currentPosition > 0) {
             currentPosition--;
         }
         mViewPager.setCurrentItem(currentPosition);
+        findViewById(R.id.dummyLocation).requestFocus();
         log("Position Changed Down");
     }
 
     // Hide keyboard
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),InputMethodManager.RESULT_UNCHANGED_SHOWN);
-    }
-
-    // Back up the inputs to the shared preferences location
-    public void loadToSharedPreferences() {
-        // 12/01/2011 4:48:16 PM
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
-        String formattedDate = sdf.format(date);
-        // Load from handler messages
-        sharedPreferences.edit().putString(constants.TIMESTAMP,formattedDate).apply();
-        sharedPreferences.edit().putString(constants.PERSON_NAME,personName).apply();
-        sharedPreferences.edit().putString(constants.TEAM_NAME,teamName).apply();
-        sharedPreferences.edit().putString(constants.TEAM_NUMBER,teamNumber).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_1,autoAction1).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_2,autoAction2).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_3,autoAction3).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_4,autoAction4).apply();
-        sharedPreferences.edit().putString(constants.AUTO_ACTION_5,autoAction5).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_1,teleopAction1).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_2,teleopAction2).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_3,teleopAction3).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_4,teleopAction4).apply();
-        sharedPreferences.edit().putString(constants.TELEOP_ACTION_5,teleopAction5).apply();
-        log("Shared Preferences Saved");
-    }
-
-    // Grab all the shared preferences to put back to UI
-    public void pullFromPreferencesAndLoadToUI() {
-        try {
-            setup.setText(R.id.setupPersonNameEditText, sharedPreferences.getString(constants.PERSON_NAME, constants.DEFAULT_PERSON_NAME));
-            setup.setText(R.id.setupTeamNameEditText, sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME));
-            setup.setText(R.id.setupTeamNumberEditText, sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER));
-            sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1);
-            sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2);
-            sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3);
-            sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4);
-            sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5);
-            sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1);
-            sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2);
-            sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3);
-            sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4);
-            sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5);
-        } catch (Exception e) {
-            log("Failed to load to gui: " + e.getStackTrace().toString());
-        }
-    }
-
-    // Gather all the files from the preferences and print
-    public void pullFromPreferencesAndPrint() {
-        print(sharedPreferences.getString(constants.TIMESTAMP,constants.DEFAULT_TIMESTAMP)+",");
-        print(sharedPreferences.getString(constants.PERSON_NAME,constants.DEFAULT_PERSON_NAME)+",");
-        print(sharedPreferences.getString(constants.TEAM_NAME, constants.DEFAULT_TEAM_NAME) + ",");
-        print(sharedPreferences.getString(constants.TEAM_NUMBER, constants.DEFAULT_TEAM_NUMBER) + ",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_1, constants.DEFAULT_AUTO_ACTION_1) + ",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_2, constants.DEFAULT_AUTO_ACTION_2) + ",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_3, constants.DEFAULT_AUTO_ACTION_3) + ",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_4, constants.DEFAULT_AUTO_ACTION_4) + ",");
-        print(sharedPreferences.getString(constants.AUTO_ACTION_5, constants.DEFAULT_AUTO_ACTION_5) + ",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_1, constants.DEFAULT_TELEOP_ACTION_1) + ",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_2, constants.DEFAULT_TELEOP_ACTION_2) + ",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_3, constants.DEFAULT_TELEOP_ACTION_3) + ",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_4, constants.DEFAULT_TELEOP_ACTION_4) + ",");
-        print(sharedPreferences.getString(constants.TELEOP_ACTION_5, constants.DEFAULT_TELEOP_ACTION_5));
-        print("\n");
-        toast("File Saved");
+    public void hideKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     // Save file
     public void wrapUp(View view) {
-        loadToSharedPreferences();
-        pullFromPreferencesAndPrint();
+        print();
         clearValues(view);
+        changePageDown(view);
         changePageDown(view);
         changePageDown(view);
     }
 
     // Close and save
     public void closeWrapUp(View view) {
-        sharedPreferences.edit().putBoolean(constants.SAVED_BY_USER,true).apply();
-        loadToSharedPreferences();
-        pullFromPreferencesAndPrint();
+        print();
         close();
         if (Build.VERSION.SDK_INT>=21) {
             finishAndRemoveTask();
@@ -799,5 +750,9 @@ public class MainActivity extends ActionBarActivity {
     public void vibrate(long millis) {
         Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         v.vibrate(millis);
+    }
+
+    public void onButtonPress(View view) {
+
     }
 }

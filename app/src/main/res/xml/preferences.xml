@@ -2,13 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/action_settings">
-
+        android:title="@string/personal_Details_Header">
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/action_settings">
-
-    </PreferenceCategory>
+    <EditTextPreference
+        android:key="personName"
+        android:title="@string/person_Name_Preference">
+    </EditTextPreference>
 
 </PreferenceScreen>

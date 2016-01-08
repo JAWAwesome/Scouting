@@ -2,62 +2,53 @@ package com.production.jared.scouting;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Jared on 9/19/2015.
+ * Created by Jared on 1/5/2016.
  */
-public class FilePrint {
-
+public class BackupFileClass {
     // Variables
     private final String TAG = this.getClass().getName();
     File location;
     FileWriter fileWriter;
 
     // Constructor for the file
-    public FilePrint(File inputFile)
-    {
-        Log.i(TAG, "Constructing File Printer at location: " + inputFile.toString());
+    public BackupFileClass(File inputFile) {
         // File path
         location = inputFile;
+        Log.i(TAG, "Constructing File Printer at location: " + inputFile.toString());
         // Steps to output to file and create it if it dne
         try {
-            fileWriter = new FileWriter(location,true);
+            fileWriter = new FileWriter(location,false);
         } catch (Exception e) {
             Log.i(TAG,e.getMessage());
         }
     }
 
-    // Method to print to the file desired
+    // Method to add to the file
     public void print(ArrayList<String> text) {
-        Log.i(TAG, "Printing String");
         for (String here: text) {
             try {
-                fileWriter.write(here);
+                fileWriter.write(here + "\n");
                 fileWriter.flush();
             } catch (IOException e) {
                 // Display error
                 Log.i(TAG, e.getMessage() + "");
             }
         }
-        try {
-            fileWriter.write("\n");
-            fileWriter.flush();
-        } catch (IOException e) {
-            // Display error
-            Log.i(TAG, e.getMessage() + "");
-        }
     }
 
     // Close the file when done
-    public void close()
-    {
+    public void close() {
         Log.i(TAG,"Closing the file");
-        try
-        {
+        try {
             // Close the file
             fileWriter.close();
         }

@@ -65,6 +65,10 @@
             android:textSize="25dp">
         <requestFocus/>
         </Button>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="onButtonPress"/>
 
     </LinearLayout>
 </ScrollView>

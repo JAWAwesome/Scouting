@@ -25,11 +25,20 @@ public class Constants {
     public final String PERSON_NAME_PREFERENCE = "personName";
 
     // Shared Preferences Constants from app
-    public final String SAVED_BY_USER = "Saved by User";
     public final String TIMESTAMP = "Time Stamp";
-    public final String PERSON_NAME = "Scoutter Name";
     public final String TEAM_NAME = "Team Name";
     public final String TEAM_NUMBER = "Team Number";
+    public final String ROBOT_DRIVE_SYSTEM_TYPE = "Drive Type";
+    public final String ROBOT_DRIVE_SYSTEM_CONNECTION = "Drive Connection Type";
+    public final String ROBOT_DRIVE_SYSTEM_WHEEL_COUNT = "Drive Wheel Count";
+    public final String ROBOT_DRIVE_SYSTEM_WHEEL_TYPE = "Drive Wheel Type";
+    public final String ROBOT_DRIVE_SYSTEM_MOTOR_COUNT = "Drive Motor Count";
+    public final String ROBOT_DRIVE_SYSTEM_SHIFTER_USE = "Uses Drive Shifters";
+    public final String ROBOT_WEIGHT = "Weight";
+    public final String ROBOT_HEIGTH = "Height";
+    public final String ROBOT_WIDTH = "Width";
+    public final String ROBOT_LENGTH = "Length";
+    public final String ROBOT_QUALITY = "Build Quality";
     public final String AUTO_ACTION_1 = "autoAction1";
     public final String AUTO_ACTION_2 = "autoAction2";
     public final String AUTO_ACTION_3 = "autoAction3";
@@ -40,19 +49,4 @@ public class Constants {
     public final String TELEOP_ACTION_3 = "teleopAction3";
     public final String TELEOP_ACTION_4 = "teleopAction4";
     public final String TELEOP_ACTION_5 = "teleopAction5";
-
-    // Handler arg types
-    public final int HANDLER_PERSON_NAME = 0;
-    public final int HANDLER_TEAM_NAME = 1;
-    public final int HANDLER_TEAM_NUMBER = 2;
-    public final int HANDLER_AUTO_ACTION_1 = 3;
-    public final int HANDLER_AUTO_ACTION_2 = 4;
-    public final int HANDLER_AUTO_ACTION_3 = 5;
-    public final int HANDLER_AUTO_ACTION_4 = 6;
-    public final int HANDLER_AUTO_ACTION_5 = 7;
-    public final int HANDLER_TELEOP_ACTION_1 = 8;
-    public final int HANDLER_TELEOP_ACTION_2 = 9;
-    public final int HANDLER_TELEOP_ACTION_3 = 10;
-    public final int HANDLER_TELEOP_ACTION_4 = 11;
-    public final int HANDLER_TELEOP_ACTION_5 = 12;
 }

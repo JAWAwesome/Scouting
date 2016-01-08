@@ -1,14 +1,16 @@
 package com.production.jared.scouting;
 
+import android.app.Activity;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.inputmethod.InputMethodManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by Jared on 9/18/2015.
@@ -18,13 +20,28 @@ public class AutoMain extends Fragment implements ChangeText{
     Constants constants = new Constants();
     final String TAG = this.getClass().toString();
     public View auto;
+    ArrayList<String> parameters = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create the fragment
         View v = inflater.inflate(R.layout.auto_main, container, false);
         auto = v;
+        parameters.add(",");
+        parameters.add(",");
+        parameters.add(",");
+        parameters.add(",");
+        parameters.add(",");
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+        }
     }
 
     public static Fragment newInstance(Handler handler) {
@@ -37,27 +54,12 @@ public class AutoMain extends Fragment implements ChangeText{
     }
 
     @Override
-    public void setText(int i, String message) {
-
-    }
-
-    @Override
     public void log(String message) {
-
+        Log.i(TAG, message);
     }
 
     @Override
-    public void sendHandlerMessage(String text, int arg) {
-
-    }
-
-    @Override
-    public void changeView() {
-
-    }
-
-    @Override
-    public void clear() {
-
+    public ArrayList<String> get() {
+        return parameters;
     }
 }
