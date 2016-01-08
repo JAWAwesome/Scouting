@@ -35,14 +35,14 @@ public class TeleopMain extends Fragment implements ChangeText{
         return v;
     }
 
-   @Override
-   public void onViewCreated(View view, Bundle savedInstanceState) {
-       try {
-           InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-           inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
-       } catch (Exception e) {
-       }
-   }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+        }
+    }
 
     public static Fragment newInstance(Handler handler) {
         // Used for the fragment
@@ -51,6 +51,11 @@ public class TeleopMain extends Fragment implements ChangeText{
         Bundle b = new Bundle();
         f.setArguments(b);
         return f;
+    }
+
+    @Override
+    public void otherOption() {
+
     }
 
     @Override

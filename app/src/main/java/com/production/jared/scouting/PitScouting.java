@@ -289,7 +289,7 @@ public class PitScouting extends Fragment implements ChangeText {
                 break;
         }
 
-        parameters.set(5,Boolean.toString(shifters)+",");
+        parameters.set(5, Boolean.toString(shifters) + ",");
     }
 
     public void wheelUp(View view) {
@@ -318,6 +318,11 @@ public class PitScouting extends Fragment implements ChangeText {
         }
         motors.setText(String.valueOf(temp));
         parameters.set(4, motors.getText().toString() + ",");
+    }
+
+    @Override
+    public void otherOption() {
+
     }
 
     @Override

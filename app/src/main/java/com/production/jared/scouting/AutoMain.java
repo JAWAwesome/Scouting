@@ -54,6 +54,11 @@ public class AutoMain extends Fragment implements ChangeText{
     }
 
     @Override
+    public void otherOption() {
+
+    }
+
+    @Override
     public void log(String message) {
         Log.i(TAG, message);
     }

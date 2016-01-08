@@ -11,4 +11,5 @@ import java.util.ArrayList;
 public interface ChangeText {
     public abstract void log (String message);
     public abstract ArrayList<String> get ();
+    public abstract void otherOption();
 }
