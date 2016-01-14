@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -21,8 +21,8 @@
             <!-- Progression button -->
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_Back_Teleop"
+                android:layout_height="match_parent"
+                android:text="@string/teleop_Button_Back_Teleop"
                 android:id="@+id/button_Back_Teleop"
                 android:onClick="changePageDown"
                 android:layout_gravity="center_horizontal"
@@ -31,7 +31,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_Done_Teleop"
+                android:text="@string/teleop_Button_Done_Teleop"
                 android:id="@+id/button_Done_Teleop"
                 android:onClick="done"
                 android:layout_gravity="center_horizontal"

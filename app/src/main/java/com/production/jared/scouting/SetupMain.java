@@ -1,6 +1,7 @@
 package com.production.jared.scouting;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -34,14 +36,16 @@ public class SetupMain extends Fragment implements ChangeText{
         // Create the fragment
         View v = inflater.inflate(R.layout.setup_main, container, false);
         setup = v;
-        parameters.add(constants.DEFAULT_PERSON_NAME+",");
+        log("View being created");
+        parameters.add(constants.DEFAULT_PERSON_NAME + ",");
         parameters.add(constants.DEFAULT_TEAM_NAME+",");
-        parameters.add(constants.DEFAULT_TEAM_NUMBER+",");
+        parameters.add(constants.DEFAULT_TEAM_NUMBER + ",");
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        log("View created");
         personName = (EditText) setup.findViewById(R.id.setupPersonNameEditText);
         personName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -51,7 +55,8 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(0,s.toString()+",");
+                parameters.set(0, s.toString() + ",");
+                log("Person name chenged: " + s);
             }
 
             @Override
@@ -69,6 +74,7 @@ public class SetupMain extends Fragment implements ChangeText{
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 parameters.set(1,s.toString()+",");
+                log("Team name changed: " + s);
             }
 
             @Override
@@ -85,7 +91,8 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(2,s.toString()+",");
+                parameters.set(2, s.toString() + ",");
+                log("Team number changed: " + s);
             }
 
             @Override
@@ -110,11 +117,27 @@ public class SetupMain extends Fragment implements ChangeText{
     }
 
     @Override
-    public void otherOption() {
-
+    public void otherOption(final int place) {
+        log("Other option needed");
+        // Ask what to do
+        final Dialog dialog = new Dialog(getActivity());
+        // use the layout file created
+        dialog.setContentView(R.layout.other_option);
+        dialog.setTitle("Other Option!");
+        Button submit = (Button)dialog.findViewById(R.id.otherOptionButton);
+        final EditText value = (EditText) dialog.findViewById(R.id.otherOptionEditText);
+        // Call the button methods for their actions
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                parameters.set(place,value.getText().toString());
+                value.getText().toString();
+            }
+        });
+        dialog.show();
     }
 
-    @Override
     public void log(String message) {
         Log.i(TAG, message);
     }

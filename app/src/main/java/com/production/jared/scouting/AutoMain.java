@@ -1,6 +1,7 @@
 package com.production.jared.scouting;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -24,19 +27,21 @@ public class AutoMain extends Fragment implements ChangeText{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        log("View being created");
         // Create the fragment
         View v = inflater.inflate(R.layout.auto_main, container, false);
         auto = v;
-        parameters.add(",");
-        parameters.add(",");
-        parameters.add(",");
-        parameters.add(",");
-        parameters.add(",");
+        parameters.add(constants.DEFAULT_AUTO_ACTION_1+",");
+        parameters.add(constants.DEFAULT_AUTO_ACTION_2+",");
+        parameters.add(constants.DEFAULT_AUTO_ACTION_3+",");
+        parameters.add(constants.DEFAULT_AUTO_ACTION_4+",");
+        parameters.add(constants.DEFAULT_AUTO_ACTION_5+",");
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        log("View created");
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
@@ -54,8 +59,25 @@ public class AutoMain extends Fragment implements ChangeText{
     }
 
     @Override
-    public void otherOption() {
-
+    public void otherOption(final int place) {
+        log("Other option needed");
+        // Ask what to do
+        final Dialog dialog = new Dialog(getActivity());
+        // use the layout file created
+        dialog.setContentView(R.layout.other_option);
+        dialog.setTitle("Other Option!");
+        Button submit = (Button)dialog.findViewById(R.id.otherOptionButton);
+        final EditText value = (EditText) dialog.findViewById(R.id.otherOptionEditText);
+        // Call the button methods for their actions
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                parameters.set(place,value.getText().toString());
+                value.getText().toString();
+            }
+        });
+        dialog.show();
     }
 
     @Override

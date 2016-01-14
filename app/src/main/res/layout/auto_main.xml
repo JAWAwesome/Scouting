@@ -22,7 +22,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_Back_Auto"
+                android:text="@string/auto_Button_Back_Auto"
                 android:id="@+id/button_Back_Auto"
                 android:onClick="changePageDown"
                 android:layout_gravity="center_horizontal"
@@ -31,7 +31,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_Next_Auto"
+                android:text="@string/auto_Button_Next_Auto"
                 android:id="@+id/button_Next_Auto"
                 android:onClick="changePageUp"
                 android:layout_gravity="center_horizontal"

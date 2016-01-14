@@ -14,12 +14,184 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <!-- Drive Type -->
+        <!-- Defenses -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/drive_Type"
+            android:text="@string/pits_Defenses_Crossable"
+            android:id="@+id/defenses_Crossable_TextView" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/sallyport"
+                    android:id="@+id/sally_Port_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/sally_Port_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/sallyport"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/drawbridge"
+                    android:id="@+id/drawbridge_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/drawbridge_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/drawbridge"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/moat"
+                    android:id="@+id/moat_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/moat_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/moat"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/rockwall"
+                    android:id="@+id/rock_Wall_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/rock_Wall_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/rockwall"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/roughTerrain"
+                    android:id="@+id/rough_Terrain_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/rough_Terrain_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/roughterrain"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/portcullis"
+                    android:id="@+id/portcullis_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/portcullis_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/portcullis"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/ramparts"
+                    android:id="@+id/ramparts_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/ramparts_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ramparts"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/chevaldefrise"
+                    android:id="@+id/cheval_De_Frise_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/cheval_De_Frise_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/chevaldefrise"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/hiddenPassage"
+                    android:id="@+id/hidden_Passage_CheckBox"
+                    android:layout_column="0" />
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/hidden_Passage_Image"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/hiddenpassage"
+                    android:adjustViewBounds="false"
+                    android:layout_column="1"/>
+            </TableRow>
+        </TableLayout>
+        <!-- Drive Type -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/drive_Type_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/but"
+            android:adjustViewBounds="false" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/pits_Drive_Type"
             android:id="@+id/drive_Type_TextView" />
         <Spinner
             android:layout_width="match_parent"
@@ -29,11 +201,18 @@
             android:layout_marginBottom="15dp"
             android:id="@+id/drive_Type_Spinner"/>
         <!-- Drive Connection Type -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/drive_Connection_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/chain"
+            android:adjustViewBounds="false" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/connection_Type"
+            android:text="@string/pits_Connection_Type"
             android:id="@+id/drive_Connection_Type_TextView" />
         <Spinner
             android:layout_width="match_parent"
@@ -47,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/number_Wheels"
+            android:text="@string/pits_Number_Wheels"
             android:id="@+id/number_Wheels_TextView" />
         <LinearLayout
             android:orientation="horizontal"
@@ -84,11 +263,18 @@
                 android:onClick="up"/>
         </LinearLayout>
         <!-- Wheel Type -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/wheel_Type_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/meca"
+            android:adjustViewBounds="false" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/wheel_Type"
+            android:text="@string/pits_Wheel_Type"
             android:id="@+id/wheel_Type_TextView" />
         <Spinner
             android:layout_width="match_parent"
@@ -102,7 +288,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/number_Motors"
+            android:text="@string/pits_Number_Motors"
             android:id="@+id/number_Motors_TextView" />
         <LinearLayout
             android:orientation="horizontal"
@@ -143,7 +329,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/shifters"
+            android:text="@string/pits_Shifters"
             android:id="@+id/shifters_TextView" />
         <RadioGroup
             android:orientation="horizontal"
@@ -156,13 +342,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/shifter_No"
+                android:text="@string/pits_Shifter_No"
                 android:id="@+id/shifter_No_Radio"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/shifter_Yes"
+                android:text="@string/pits_Shifter_Yes"
                 android:id="@+id/shifter_Yes_Radio"/>
         </RadioGroup>
         <!-- Weight -->
@@ -170,7 +356,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/weight"
+            android:text="@string/pits_Weight"
             android:id="@+id/weight_TextView" />
         <EditText
             android:layout_width="match_parent"
@@ -184,7 +370,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/height"
+            android:text="@string/pits_Height"
             android:id="@+id/height_TextView" />
         <EditText
             android:layout_width="match_parent"
@@ -198,7 +384,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/width"
+            android:text="@string/pits_Width"
             android:id="@+id/width_TextView" />
         <EditText
             android:layout_width="match_parent"
@@ -212,7 +398,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/length"
+            android:text="@string/pits_Length"
             android:id="@+id/length_TextView" />
         <EditText
             android:layout_width="match_parent"
@@ -226,7 +412,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/quality"
+            android:text="@string/pits_Quality"
             android:id="@+id/quality_TextView" />
         <Spinner
             android:layout_width="match_parent"
@@ -243,7 +429,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_Back_Pits"
+                android:text="@string/pits_Button_Back_Pits"
                 android:id="@+id/button_Back_Pits"
                 android:onClick="changePageDown"
                 android:layout_gravity="center_horizontal"
@@ -252,7 +438,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_Next_Pits"
+                android:text="@string/pits_Button_Next_Pits"
                 android:id="@+id/button_Next_Pits"
                 android:onClick="changePageUp"
                 android:layout_gravity="center_horizontal"

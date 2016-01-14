@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Prompt -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,13 +15,14 @@
         android:text="@string/done_Popup_Window_Message"
         android:id="@+id/donePopUpTextMessage"
         android:layout_gravity="center_horizontal" />
+    <!-- Option Buttons -->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Save_File"
+        android:text="@string/done_Popup_Button_Save_File"
         android:id="@+id/button_Save_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>
@@ -30,7 +32,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Close_Save_File"
+        android:text="@string/done_Popup_Button_Close_Save_File"
         android:id="@+id/button_Close_Save_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>
@@ -40,7 +42,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Open_File"
+        android:text="@string/done_Popup_Button_Open_File"
         android:id="@+id/button_Open_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>
@@ -50,7 +52,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/button_Share_File"
+        android:text="@string/done_Popup_Button_Share_File"
         android:id="@+id/button_Share_File_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>
@@ -61,7 +63,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/button_Delete_File"
+        android:text="@string/done_Popup_Button_Delete_File"
         android:id="@+id/button_Delete_File_Popup_Done"
         android:layout_gravity="center_horizontal"
         android:textSize="25dp"/>

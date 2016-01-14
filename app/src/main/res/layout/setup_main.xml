@@ -19,33 +19,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/person_Name"
+            android:text="@string/setup_Person_Name"
             android:id="@+id/setupPersonNameTextView" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/setupPersonNameEditText"
-            android:layout_gravity="center_horizontal" />
+            android:inputType="textPersonName"
+            android:id="@+id/setupPersonNameEditText" />
         <!-- Team name -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/team_Name"
+            android:text="@string/setup_Team_Name"
             android:id="@+id/setupTeamNameTextView"
             android:layout_gravity="center_horizontal" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
             android:id="@+id/setupTeamNameEditText" />
         <!-- Team number -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/team_Number"
+            android:text="@string/setup_Team_Number"
             android:id="@+id/setupTeamNumberTextView"
             android:layout_gravity="center_horizontal" />
         <EditText
@@ -58,17 +59,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_Next_Setup"
+            android:text="@string/setup_Button_Next_Setup"
             android:id="@+id/setup_Next_Setup"
             android:onClick="changePageUp"
             android:layout_gravity="center_horizontal"
-            android:textSize="25dp">
-        <requestFocus/>
-        </Button>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:onClick="onButtonPress"/>
-
+            android:textSize="25dp"/>
     </LinearLayout>
 </ScrollView>

@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;
     FilePrint printer;
     BackupFileClass backUp;
-    SharedPreferences sharedPreferences;
     ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
     static Handler sender;
 
@@ -199,22 +198,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Listener for changes in preferences
-        updatePreferences();
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                log("preferences changed");
-                updatePreferences();
-            }
-        });
-
-
-
-
-
         // Create a save based on time thread and setup
-        fileSetup();
+        // fileSetup();
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -228,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -240,11 +225,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent settings = new Intent(getApplicationContext(),Preferences.class);
-            startActivityForResult(settings, 1);
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -299,20 +279,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //loadToSharedPreferences();
                         print();
+                        backUp();
                         close();
                         finish();
                     }
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    @Override
-    public void onActivityResult(int request, int result, Intent data) {
-        if (request == 1) {
-            log("preferences activity resulted, updating");
-            updatePreferences();
-        }
     }
 
 
@@ -356,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
     public void setUpScoutingCSV() {
         String outputText = "";
         outputText += constants.TIMESTAMP+",";
-        outputText += constants.PERSON_NAME_PREFERENCE+",";
+        outputText += constants.PERSON_NAME+",";
         outputText += constants.TEAM_NAME+",";
         outputText += constants.TEAM_NUMBER+",";
         outputText += constants.ROBOT_DRIVE_SYSTEM_TYPE+",";
@@ -554,12 +527,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Used to update preference reference
-    public void updatePreferences() {
-        log("Updating preferences");
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-    }
-
     // Clear the text box values
     public void clearValues(View view) {
         recreate();
@@ -750,9 +717,5 @@ public class MainActivity extends AppCompatActivity {
     public void vibrate(long millis) {
         Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         v.vibrate(millis);
-    }
-
-    public void onButtonPress(View view) {
-
     }
 }

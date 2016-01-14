@@ -5,11 +5,20 @@ package com.production.jared.scouting;
  */
 public class Constants {
     // Default action values
-    public final boolean DEFAULT_SAVED_STATE = false;
-    public final String DEFAULT_TIMESTAMP = "error";
     public final String DEFAULT_PERSON_NAME = "Jared Wagner";
     public final String DEFAULT_TEAM_NAME = "Absolute Zero Electricity";
     public final String DEFAULT_TEAM_NUMBER = "3941";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_TYPE = "Tank";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_CONNECTION = "Direct";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_WHEEL_COUNT = "4";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_WHEEL_TYPE = "Large Firction";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_MOTOR_COUNT = "4";
+    public final String DEFAULT_ROBOT_DRIVE_SYSTEM_SHIFTER_USE = "false";
+    public final String DEFAULT_ROBOT_WEIGHT = "120";
+    public final String DEFAULT_ROBOT_HEIGHT = "12";
+    public final String DEFAULT_ROBOT_WIDTH = "28";
+    public final String DEFAULT_ROBOT_LENGTH = "32";
+    public final String DEFAULT_ROBOT_QUALITY = "High";
     public final String DEFAULT_AUTO_ACTION_1 = "forward";
     public final String DEFAULT_AUTO_ACTION_2 = "left";
     public final String DEFAULT_AUTO_ACTION_3 = "right";
@@ -21,11 +30,9 @@ public class Constants {
     public final String DEFAULT_TELEOP_ACTION_4 = "pass";
     public final String DEFAULT_TELEOP_ACTION_5 = "score";
 
-    // Shared Preferences Constants from settings
-    public final String PERSON_NAME_PREFERENCE = "personName";
-
-    // Shared Preferences Constants from app
+    // Value Lables
     public final String TIMESTAMP = "Time Stamp";
+    public final String PERSON_NAME = "Person Name";
     public final String TEAM_NAME = "Team Name";
     public final String TEAM_NUMBER = "Team Number";
     public final String ROBOT_DRIVE_SYSTEM_TYPE = "Drive Type";
