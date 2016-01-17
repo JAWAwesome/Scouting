@@ -73,8 +73,12 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                parameters.set(place,value.getText().toString());
-                value.getText().toString();
+                parameters.set(place, value.getText().toString() + ",");
+                try {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                }
             }
         });
         dialog.show();

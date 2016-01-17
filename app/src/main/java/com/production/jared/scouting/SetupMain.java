@@ -55,7 +55,7 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(0, s.toString() + ",");
+                parameters.set(constants.SETUP_PERSON_NAME_INT, s.toString() + ",");
                 log("Person name chenged: " + s);
             }
 
@@ -73,7 +73,7 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(1,s.toString()+",");
+                parameters.set(constants.SETUP_TEAM_NAME_INT,s.toString()+",");
                 log("Team name changed: " + s);
             }
 
@@ -91,7 +91,7 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(2, s.toString() + ",");
+                parameters.set(constants.SETUP_TEAM_NUMBER_INT, s.toString() + ",");
                 log("Team number changed: " + s);
             }
 
@@ -131,8 +131,12 @@ public class SetupMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                parameters.set(place,value.getText().toString());
-                value.getText().toString();
+                parameters.set(place, value.getText().toString() + ",");
+                try {
+                    InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                }
             }
         });
         dialog.show();

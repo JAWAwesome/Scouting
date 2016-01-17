@@ -1,0 +1,81 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/teleopMain"
+    tools:context=".MainActivity$PlaceholderFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/defense_Placement"
+            android:id="@+id/defense_Placement_TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="15dp"
+            android:id="@+id/defense_Placement_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/defensepositions"
+            android:adjustViewBounds="false" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/defense_Position_1"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:text="@string/defense_Position_1" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/defense_Position_2"
+                android:layout_marginBottom="15dp"
+                android:text="@string/defense_Position_2" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/defense_Position_3"
+                android:layout_marginBottom="15dp"
+                android:text="@string/defense_Position_3" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/defense_Position_4"
+                android:layout_marginBottom="15dp"
+                android:text="@string/defense_Position_4" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/defense_Position_5"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:text="@string/defense_Position_5" />
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/defense_Placement_Button"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/other_Option_Button_Done" />
+    </LinearLayout>
+</ScrollView>

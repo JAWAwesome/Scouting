@@ -1,6 +1,6 @@
 <resources>
     <!-- Basic Stuff -->
-    <string name="app_name">Scouting</string>
+    <string name="app_name">3941 Scouting</string>
     <string name="action_settings">Settings</string>
 
 
@@ -32,15 +32,28 @@
     <!-- Pits Layout -->
     <!-- Text Lables -->
     <string name="pits_Defenses_Crossable">Defenses crossable:</string>
-    <string name="portcullis">Portcullis</string>
-    <string name="chevaldefrise">Cheval de Frise</string>
-    <string name="moat">Moat</string>
-    <string name="ramparts">Ramparts</string>
-    <string name="drawbridge">Drawbridge</string>
-    <string name="sallyport">Sally Port</string>
-    <string name="rockwall">Rock Wall</string>
-    <string name="roughTerrain">Rough Terrain</string>
-    <string name="hiddenPassage">Secret Passageway</string>
+
+    <string name="pits_Goals_Reachable">Goals reachable:</string>
+
+    <string name="assisted_Shooting">Programatically assisted shooter:</string>
+    <string name="assisted_Shooter_Yes">Uses</string>
+    <string name="assisted_Shooter_No">Does not Use</string>
+
+    <string name="shooter_Type">Robot shooter type</string>
+    <string-array name="shooter_Type_Choices">
+        <item>Wheeled Pitcher</item>
+        <item>Pneumatic Catapult</item>
+        <item>Surgical Tubing Catapult</item>
+        <item>Spring Catapult</item>
+        <item>Kicking Launcher</item>
+        <item>No Shooter</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="auto_Actions">Auto strategy</string>
+
+    <string name="teleop_Actions">Telop strategy</string>
+
     <string name="pits_Drive_Type">Robot Drive System Type:</string>
     <string-array name="pits_Drive_Type_Options">
         <item>Tank</item>
@@ -51,6 +64,7 @@
         <item>Butterfly</item>
         <item>Other</item>
     </string-array>
+
     <string name="pits_Connection_Type">Robot Drive System Connection Type:</string>
     <string-array name="pits_Connection_Type_Options">
         <item>Belts</item>
@@ -60,7 +74,9 @@
         <item>Direct</item>
         <item>Other</item>
     </string-array>
+
     <string name="pits_Number_Wheels">Robot Drive System Wheel Count:</string>
+
     <string name="pits_Wheel_Type">Robot Drive System Wheel Type:</string>
     <string-array name="puts_Wheel_Type_Options">
         <item>Mecanum</item>
@@ -71,14 +87,21 @@
         <item>Pneumatic</item>
         <item>Other</item>
     </string-array>
+
     <string name="pits_Number_Motors">Robot Drive System Motor Count:</string>
+
     <string name="pits_Shifters">Robot Drive System Shifter Use:</string>
     <string name="pits_Shifter_No">Does not Use</string>
     <string name="pits_Shifter_Yes">Uses</string>
+
     <string name="pits_Weight">Robot Weight (lbs):</string>
+
     <string name="pits_Height">Robot Height (in):</string>
+
     <string name="pits_Width">Robot Width (in):</string>
+
     <string name="pits_Length">Robot Length (in):</string>
+
     <string name = "pits_Quality">Robot Build Quality:</string>
     <string-array name="pits_Quality_Options">
         <item>High</item>
@@ -87,6 +110,7 @@
         <item>Poor</item>
         <item>Other</item>
     </string-array>
+
     <!-- Button names -->
     <string name="pits_Button_Next_Pits">Go to Auto</string>
     <string name="pits_Button_Back_Pits">Go back to Setup</string>
@@ -97,8 +121,13 @@
 
     <!-- Auto Layout -->
     <!-- Text Lables -->
-
+    <string name="auto_Reach_Defense_TextView">Reached a Defense in Auto:</string>
+    <string name="auto_Cross_Defense_TextView">Crossed a Defense in Auto:</string>
+    <string name="auto_Shoot_TextView">Shooted a Goal in Auto:</string>
     <!-- Button names -->
+    <string name="auto_Reach_Defense_Button">Defense Reached</string>
+    <string name="auto_Cross_Defense_Button">Defense Crossed</string>
+    <string name="auto_Shoot_Button">Goal Shot</string>
     <string name="auto_Button_Next_Auto">Go to Teleop</string>
     <string name="auto_Button_Back_Auto">Go back to Pits</string>
 
@@ -108,8 +137,14 @@
 
     <!-- Teleop Layout -->
     <!-- Text Lables -->
-
+    <string name="teleop_Cross_Defense_TextView">Cross Defense:</string>
+    <string name="teleop_Shoot_TextView">Shot Goal:</string>
+    <string name="teleop_Challenge_TextView">Challenged tower:</string>
+    <string name="teleop_Scale_Tower_TextView">Scaled tower:</string>
+    <string name="teleop_Breech_Defense_TextView">Breeched Defense:</string>
+    <string name="teleop_Capture_Tower_TextView">Captured tower:</string>
     <!-- Button names -->
+    <string name="teleop_Action_Proceed">GO</string>
     <string name="teleop_Button_Back_Teleop">Go back to Auto</string>
     <string name="teleop_Button_Done_Teleop">Finish Scouting</string>
 
@@ -147,4 +182,45 @@
     <string name="other_Option_Message">Please specify the selection \"Other\":</string>
     <!-- Button Names -->
     <string name="other_Option_Button_Done">Submit</string>
+
+
+
+
+
+    <!-- Goal Window -->
+    <string name="goalMade">Select the goal:</string>
+    <string name="upperLeftGoal">Upper Left</string>
+    <string name="upperMiddleGoal">Upper Middle</string>
+    <string name="upperRightGoal">Upper Right</string>
+    <string name="lowerLeftGoal">Lower Left</string>
+    <string name="lowerRightGoal">Lower Right</string>
+    <string name="noGoal">No Goal</string>
+
+
+
+
+
+    <!-- Defenses Window -->
+    <string name="defenseCrossed">Select the defense:</string>
+    <string name="portcullis">Portcullis</string>
+    <string name="chevaldefrise">Cheval de Frise</string>
+    <string name="moat">Moat</string>
+    <string name="ramparts">Ramparts</string>
+    <string name="drawbridge">Drawbridge</string>
+    <string name="sallyport">Sally Port</string>
+    <string name="rockwall">Rock Wall</string>
+    <string name="roughTerrain">Rough Terrain</string>
+    <string name="hiddenPassage">Secret Passageway</string>
+
+
+
+
+
+    <!-- Defense Postion Window -->
+    <string name="defense_Placement">Defense Placement:</string>
+    <string name="defense_Position_1">1</string>
+    <string name="defense_Position_2">2</string>
+    <string name="defense_Position_3">3</string>
+    <string name="defense_Position_4">4</string>
+    <string name="defense_Position_5">5</string>
 </resources>

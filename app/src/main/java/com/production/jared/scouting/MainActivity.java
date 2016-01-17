@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 log("Thread running");
                 backUp();
-                log("Loaded to preferences");
+                log("Loaded to backup");
             }
         },15,15, TimeUnit.SECONDS);
     }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
             log("File storage is available");
             // Create file
             location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), fileName);
-            backUpLocation = new File(this.getFilesDir(), backUpFileName);
+            backUpLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), backUpFileName);
             // Check if the file already exists before printing to it
             fileAlreadyExists = location.exists();
             log("The file: " + location.toString() + "  exists: " + fileAlreadyExists);
@@ -332,6 +332,24 @@ public class MainActivity extends AppCompatActivity {
         outputText += constants.PERSON_NAME+",";
         outputText += constants.TEAM_NAME+",";
         outputText += constants.TEAM_NUMBER+",";
+        outputText += constants.PITS_SALLY_PORT+",";
+        outputText += constants.PITS_DRAWBRIDGE+",";
+        outputText += constants.PITS_MOAT+",";
+        outputText += constants.PITS_ROCK_WALL+",";
+        outputText += constants.PITS_ROUGH_TERRAIN+",";
+        outputText += constants.PITS_PORTCULLIS+",";
+        outputText += constants.PITS_RAMPARTS+",";
+        outputText += constants.PITS_CHEVAL_DE_FRISE+",";
+        outputText += constants.PITS_HIDDEN_PASSAGE+",";
+        outputText += constants.PITS_UPPER_LEFT_GOAL+",";
+        outputText += constants.PITS_UPPER_MIDDLE_GOAL+",";
+        outputText += constants.PITS_UPPER_RIGHT_GOAL+",";
+        outputText += constants.PITS_BOTTOM_LEFT_GOAL+",";
+        outputText += constants.PITS_NO_GOAL+",";
+        outputText += constants.PITS_BOTTOM_RIGHT_GOAL+",";
+        outputText += constants.PITS_ASSISTED_SHOOTER+",";
+        outputText += constants.PITS_SHOOTER_TYPE+",";
+
         outputText += constants.ROBOT_DRIVE_SYSTEM_TYPE+",";
         outputText += constants.ROBOT_DRIVE_SYSTEM_CONNECTION+",";
         outputText += constants.ROBOT_DRIVE_SYSTEM_WHEEL_COUNT+",";
@@ -369,6 +387,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Get values
     public void getValues() {
+        parameters.clear();
         // 12/01/2011 4:48:16 PM
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
@@ -419,7 +438,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Used to safely print text and save the ui
     public void print() {
-        parameters.clear();
         getValues();
         if (fileAccessAvailable) {
             try {
@@ -717,5 +735,21 @@ public class MainActivity extends AppCompatActivity {
     public void vibrate(long millis) {
         Vibrator v = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         v.vibrate(millis);
+    }
+
+    public void onButtonPress(View v) {
+        // Ask what to do
+        final Dialog dialog = new Dialog(this);
+        // use the layout file created
+        dialog.setContentView(R.layout.position_chooser);
+        dialog.setTitle("Testing!");
+        dialog.show();
+        Button temp = (Button) dialog.findViewById(R.id.defense_Placement_Button);
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

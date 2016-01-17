@@ -14,6 +14,70 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginBottom="15dp"
+            android:text="@string/auto_Reach_Defense_TextView"
+            android:id="@+id/reach_Defense_Auto_TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/reach_Defense_Auto_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/reachdefense"
+            android:adjustViewBounds="false" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reach_Defense_Auto_Button"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/auto_Reach_Defense_Button" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/auto_Cross_Defense_TextView"
+            android:id="@+id/cross_Defense_Auto_TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/cross_Defense_Auto_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/crossdefense"
+            android:adjustViewBounds="false" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cross_Defense_Auto_Button"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/auto_Cross_Defense_Button" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/auto_Shoot_TextView"
+            android:id="@+id/shoot_Goal_Auto_TextView" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/shoot_Goal_Auto_Image"
+            android:scaleType="fitCenter"
+            android:src="@drawable/shootgoal"
+            android:adjustViewBounds="false" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/shoot_Goal_Auto_Button"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/auto_Shoot_Button" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
