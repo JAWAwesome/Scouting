@@ -3,10 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/teleopMain"
     tools:context=".MainActivity$PlaceholderFragment">
     <LinearLayout
@@ -26,13 +22,11 @@
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_gravity="center_horizontal">
             <TableRow>
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Left_Image_General"
                     android:scaleType="fitCenter"
@@ -40,8 +34,8 @@
                     android:adjustViewBounds="false"
                     android:layout_column="0"/>
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Middle_Image_General"
                     android:scaleType="fitCenter"
@@ -49,8 +43,8 @@
                     android:adjustViewBounds="false"
                     android:layout_column="1" />
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Right_Image_General"
                     android:scaleType="fitCenter"
@@ -83,8 +77,8 @@
             </TableRow>
             <TableRow>
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/lower_Left_Goal_Image_General"
                     android:scaleType="fitCenter"
@@ -92,8 +86,8 @@
                     android:adjustViewBounds="false"
                     android:layout_column="0" />
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/no_Goal_Image_General"
                     android:scaleType="fitCenter"
@@ -101,8 +95,8 @@
                     android:adjustViewBounds="false"
                     android:layout_column="1" />
                 <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/lower_Right_Goal_Image_General"
                     android:scaleType="fitCenter"
@@ -123,7 +117,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/noGoal"
-                    android:id="@+id/no_Goal_Radio"
+                    android:id="@+id/no_Goal_General"
                     android:layout_column="1"/>
                 <CheckBox
                     android:layout_width="match_parent"

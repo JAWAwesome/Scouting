@@ -16,16 +16,16 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            android:text="@string/defense_Placement"
-            android:id="@+id/defense_Placement_TextView" />
+            android:text="@string/tower_Position"
+            android:id="@+id/tower_Placement_TextView" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:id="@+id/defense_Placement_Image"
+            android:id="@+id/tower_Placement_Image"
             android:scaleType="fitCenter"
-            android:src="@drawable/defensepositionslarge"
+            android:src="@drawable/capturescalepositionlarge"
             android:adjustViewBounds="false" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,44 +34,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_1"
+                android:id="@+id/tower_Position_A"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:text="@string/defense_Position_1" />
+                android:text="@string/tower_Position_A" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_2"
+                android:id="@+id/tower_Position_B"
                 android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_2" />
+                android:text="@string/tower_Position_B" />
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_3"
+                android:id="@+id/tower_Position_C"
                 android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_3" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/defense_Position_4"
-                android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_4" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/defense_Position_5"
-                android:layout_marginBottom="15dp"
-                android:layout_marginRight="15dp"
-                android:text="@string/defense_Position_5" />
+                android:text="@string/tower_Position_C" />
         </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/defense_Placement_Button"
+            android:id="@+id/tower_Button"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"

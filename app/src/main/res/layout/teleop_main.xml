@@ -14,11 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/other_Option_Button_Done"
-            android:onClick="onButtonPress"/>
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -29,7 +24,6 @@
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Cross_Defense_TextView"
                     android:id="@+id/cross_Defense_Teleop_TextView" />
                 <TextView
@@ -37,7 +31,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/teleop_Shoot_TextView"
                     android:id="@+id/shoot_Goal_Teleop_TextView" />
@@ -45,7 +38,7 @@
             <TableRow>
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/cross_Defense_Teleop_Image"
@@ -54,7 +47,7 @@
                     android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/shoot_Goal_Teleop_Image"
@@ -70,7 +63,6 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/cross_Defense_Teleop_Button"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
                 <Button
                     android:layout_width="match_parent"
@@ -79,7 +71,6 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/shoot_Goal_Teleop_Button"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
             </TableRow>
             <TableRow>
@@ -88,7 +79,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/teleop_Challenge_TextView"
                     android:id="@+id/challenge_Tower_Teleop_TextView" />
@@ -97,7 +87,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/teleop_Scale_Tower_TextView"
                     android:id="@+id/scale_Tower_Teleop_TextView" />
@@ -105,7 +94,7 @@
             <TableRow>
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/challenge_Tower_Teleop_Image"
@@ -114,7 +103,7 @@
                     android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/scale_Tower_Teleop_Image"
@@ -130,7 +119,6 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/challenge_Tower_Teleop_Button"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
                 <Button
                     android:layout_width="match_parent"
@@ -139,7 +127,6 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/scale_Tower_Teleop_Buttom"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
             </TableRow>
             <TableRow>
@@ -148,7 +135,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/teleop_Breech_Defense_TextView"
                     android:id="@+id/breech_Teleop_TextView" />
@@ -157,7 +143,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="15dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="@string/teleop_Capture_Tower_TextView"
                     android:id="@+id/capture_Teleop_TextView" />
@@ -165,7 +150,7 @@
             <TableRow>
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/breech_Teleop_Image"
@@ -174,7 +159,7 @@
                     android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/capture_Teleop_Image"
@@ -190,7 +175,6 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/breech_Teleop_Button"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
                 <Button
                     android:layout_width="match_parent"
@@ -199,10 +183,24 @@
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/capture_Teleop_Button"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:text="@string/teleop_Action_Proceed" />
             </TableRow>
         </TableLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/teleop_EditText_Detail"
+            android:id="@+id/auto_Detailed_TextView" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/teleop_Detailed_Text"
+            android:layout_gravity="center_horizontal" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

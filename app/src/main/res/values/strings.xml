@@ -124,6 +124,7 @@
     <string name="auto_Reach_Defense_TextView">Reached a Defense in Auto:</string>
     <string name="auto_Cross_Defense_TextView">Crossed a Defense in Auto:</string>
     <string name="auto_Shoot_TextView">Shooted a Goal in Auto:</string>
+    <string name="auto_EditText_Detail">Other details if needed:</string>
     <!-- Button names -->
     <string name="auto_Reach_Defense_Button">Defense Reached</string>
     <string name="auto_Cross_Defense_Button">Defense Crossed</string>
@@ -143,6 +144,7 @@
     <string name="teleop_Scale_Tower_TextView">Scaled tower:</string>
     <string name="teleop_Breech_Defense_TextView">Breeched Defense:</string>
     <string name="teleop_Capture_Tower_TextView">Captured tower:</string>
+    <string name="teleop_EditText_Detail">Other details if needed:</string>
     <!-- Button names -->
     <string name="teleop_Action_Proceed">GO</string>
     <string name="teleop_Button_Back_Teleop">Go back to Auto</string>
@@ -223,4 +225,14 @@
     <string name="defense_Position_3">3</string>
     <string name="defense_Position_4">4</string>
     <string name="defense_Position_5">5</string>
+
+
+
+
+
+    <!-- Tower Position Window -->
+    <string name="tower_Position">Tower Position Alignment:</string>
+    <string name="tower_Position_A">A</string>
+    <string name="tower_Position_B">B</string>
+    <string name="tower_Position_C">C</string>
 </resources>
