@@ -27,47 +27,43 @@
             android:scaleType="fitCenter"
             android:src="@drawable/defensepositionslarge"
             android:adjustViewBounds="false" />
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_1"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:text="@string/defense_Position_1" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/defense_Position_1"
+                android:id="@+id/defense_Position_1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_2"
-                android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_2" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/defense_Position_2"
+                android:id="@+id/defense_Position_2"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_3"
-                android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_3" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/defense_Position_3"
+                android:id="@+id/defense_Position_3"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_4"
-                android:layout_marginBottom="15dp"
-                android:text="@string/defense_Position_4" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/defense_Position_4"
+                android:id="@+id/defense_Position_4"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/defense_Position_5"
-                android:layout_marginBottom="15dp"
                 android:layout_marginRight="15dp"
-                android:text="@string/defense_Position_5" />
-        </LinearLayout>
+                android:text="@string/defense_Position_5"
+                android:id="@+id/defense_Position_5"/>
+        </RadioGroup>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

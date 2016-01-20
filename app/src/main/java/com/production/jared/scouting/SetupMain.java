@@ -2,6 +2,10 @@ package com.production.jared.scouting;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -15,7 +19,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -30,15 +36,18 @@ public class SetupMain extends Fragment implements ChangeText{
     EditText personName;
     EditText teamName;
     EditText teamNumber;
+    ImageView picture;
+    Bitmap inPic;
+    File picLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Create the fragment
+        // Create the fragment'
         View v = inflater.inflate(R.layout.setup_main, container, false);
         setup = v;
         log("View being created");
         parameters.add(constants.DEFAULT_PERSON_NAME + ",");
-        parameters.add(constants.DEFAULT_TEAM_NAME+",");
+        parameters.add(constants.DEFAULT_TEAM_NAME + ",");
         parameters.add(constants.DEFAULT_TEAM_NUMBER + ",");
         return v;
     }
@@ -73,7 +82,7 @@ public class SetupMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                parameters.set(constants.SETUP_TEAM_NAME_INT,s.toString()+",");
+                parameters.set(constants.SETUP_TEAM_NAME_INT, s.toString() + ",");
                 log("Team name changed: " + s);
             }
 
@@ -100,6 +109,14 @@ public class SetupMain extends Fragment implements ChangeText{
 
             }
         });
+        picture = (ImageView) getActivity().findViewById(R.id.picture_Thumb_Nail);
+        if(inPic!=null) {
+            picture.setImageBitmap(inPic);
+        } else if (picLocation!=null&&picLocation.exists()){
+            // Bitmap imageFromFile = BitmapFactory.decodeFile(picLocation.getAbsolutePath());
+            Bitmap imageFromFile = BitmapFactory.decodeFile(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/Sent Gifs/Text.jpg").getAbsolutePath());
+            picture.setImageBitmap(imageFromFile);
+        }
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
@@ -114,6 +131,11 @@ public class SetupMain extends Fragment implements ChangeText{
         Bundle b = new Bundle();
         f.setArguments(b);
         return f;
+    }
+
+    public void setPicture(Bitmap thumbNail, File path){
+        inPic = thumbNail;
+        picLocation = path;
     }
 
     @Override

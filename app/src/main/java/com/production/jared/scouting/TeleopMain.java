@@ -2,6 +2,7 @@ package com.production.jared.scouting;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,8 @@ public class TeleopMain extends Fragment implements ChangeText{
     ImageView capturedTowerI;
     Button capturedTowerB;
     EditText details;
+    boolean breached = false;
+    boolean capture = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,11 +53,16 @@ public class TeleopMain extends Fragment implements ChangeText{
         // Create the Fragment
         View v = inflater.inflate(R.layout.teleop_main, container, false);
         teleop = v;
-        parameters.add(constants.DEFAULT_TELEOP_ACTION_1+",");
-        parameters.add(constants.DEFAULT_TELEOP_ACTION_2+",");
-        parameters.add(constants.DEFAULT_TELEOP_ACTION_3+",");
-        parameters.add(constants.DEFAULT_TELEOP_ACTION_4+",");
-        parameters.add(constants.DEFAULT_TELEOP_ACTION_5+",");
+        parameters.add(constants.DEFAULT_TELEOP_DEFENSE_LIST+",");
+        parameters.add(constants.DEFAULT_TELEOP_DEFENSE_POSITION_LIST+",");
+        parameters.add(constants.DEFAULT_TELEOP_DEFENSE_COUNT+",");
+        parameters.add(constants.DEFAULT_TELEOP_SHOOT_POSITION_LIST+",");
+        parameters.add(constants.DEFAULT_TELEOP_SHOOT_COUNT+",");
+        parameters.add(constants.DEFAULT_TELEOP_CHALLENGE_POSITION+",");
+        parameters.add(constants.DEFAULT_TELEOP_SCALED_POSITION+",");
+        parameters.add(constants.DEFAULT_TELEOP_BREECHED+",");
+        parameters.add(constants.DEFAULT_TELEOP_CAPTURED+",");
+        parameters.add(constants.DEFAULT_TELEOP_OTHER_INFORMATION+",");
         return v;
     }
 
@@ -159,7 +168,7 @@ public class TeleopMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                parameters.set(constants.TELEOP_OTHER_INFORMATION_INT,s.toString());
             }
 
             @Override
@@ -180,32 +189,34 @@ public class TeleopMain extends Fragment implements ChangeText{
         final Dialog dialog = new Dialog(getActivity());
         // use the layout file created
         dialog.setContentView(R.layout.defense_chooser);
-        dialog.setTitle("Crossed Defense");
+        dialog.setTitle("Defense Crossed");
         dialog.show();
-        final CheckBox sallyPortC;
+        final RadioButton sallyPortR;
         final ImageView sallyPortI;
-        final CheckBox drawbridgeC;
+        final RadioButton drawbridgeR;
         final ImageView drawbridgeI;
-        final CheckBox moatC;
+        final RadioButton moatR;
         final ImageView moatI;
-        final CheckBox rockWallC;
+        final RadioButton rockWallR;
         final ImageView rockWallI;
-        final CheckBox roughTerrainC;
+        final RadioButton roughTerrainR;
         final ImageView roughTerrainI;
-        final CheckBox portcullisC;
+        final RadioButton portcullisR;
         final ImageView portcullisI;
-        final CheckBox rampartsC;
+        final RadioButton rampartsR;
         final ImageView rampartsI;
-        final CheckBox chevalDeFriseC;
+        final RadioButton chevalDeFriseR;
         final ImageView chevalDeFriseI;
-        final CheckBox secretPassageC;
+        final RadioButton secretPassageR;
         final ImageView secretPassageI;
 
-        sallyPortC = (CheckBox) dialog.findViewById(R.id.sally_Port_CheckBox);
-        sallyPortC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sallyPortR = (RadioButton) dialog.findViewById(R.id.sally_Port_RadioButton);
+        sallyPortR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Sally Port,");
+                }
             }
         });
         sallyPortI = (ImageView) dialog.findViewById(R.id.sally_Port_Image);
@@ -213,15 +224,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Sally port clicked");
-                sallyPortC.setChecked(!sallyPortC.isChecked());
+                sallyPortR.setChecked(!sallyPortR.isChecked());
             }
         });
 
-        drawbridgeC = (CheckBox) dialog.findViewById(R.id.drawbridge_CheckBox);
-        drawbridgeC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        drawbridgeR = (RadioButton) dialog.findViewById(R.id.drawbridge_RadioButton);
+        drawbridgeR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Drawbridge,");
+                }
             }
         });
         drawbridgeI = (ImageView) dialog.findViewById(R.id.drawbridge_Image);
@@ -229,15 +242,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Drawbridge clicked");
-                drawbridgeC.setChecked(!drawbridgeC.isChecked());
+                drawbridgeR.setChecked(!drawbridgeR.isChecked());
             }
         });
 
-        moatC = (CheckBox) dialog.findViewById(R.id.moat_CheckBox);
-        moatC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        moatR = (RadioButton) dialog.findViewById(R.id.moat_RadioButton);
+        moatR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Moat,");
+                }
             }
         });
         moatI = (ImageView) dialog.findViewById(R.id.moat_Image);
@@ -245,15 +260,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Moat clicked");
-                moatC.setChecked(!moatC.isChecked());
+                moatR.setChecked(!moatR.isChecked());
             }
         });
 
-        rockWallC = (CheckBox) dialog.findViewById(R.id.rock_Wall_CheckBox);
-        rockWallC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rockWallR = (RadioButton) dialog.findViewById(R.id.rock_Wall_RadioButton);
+        rockWallR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Rock Wall,");
+                }
             }
         });
         rockWallI = (ImageView) dialog.findViewById(R.id.rock_Wall_Image);
@@ -261,15 +278,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rock wall clicked");
-                rockWallC.setChecked(!rockWallC.isChecked());
+                rockWallR.setChecked(!rockWallR.isChecked());
             }
         });
 
-        roughTerrainC = (CheckBox) dialog.findViewById(R.id.rough_Terrain_CheckBox);
-        roughTerrainC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        roughTerrainR = (RadioButton) dialog.findViewById(R.id.rough_Terrain_RadioButton);
+        roughTerrainR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Rough Terrain,");
+                }
             }
         });
         roughTerrainI = (ImageView) dialog.findViewById(R.id.rough_Terrain_Image);
@@ -277,15 +296,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rough terrain clicked");
-                roughTerrainC.setChecked(!roughTerrainC.isChecked());
+                roughTerrainR.setChecked(!roughTerrainR.isChecked());
             }
         });
 
-        portcullisC = (CheckBox) dialog.findViewById(R.id.portcullis_CheckBox);
-        portcullisC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        portcullisR = (RadioButton) dialog.findViewById(R.id.portcullis_RadioButton);
+        portcullisR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Portcullis,");
+                }
             }
         });
         portcullisI = (ImageView) dialog.findViewById(R.id.portcullis_Image);
@@ -293,15 +314,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Portcullis clicked");
-                portcullisC.setChecked(!portcullisC.isChecked());
+                portcullisR.setChecked(!portcullisR.isChecked());
             }
         });
 
-        rampartsC = (CheckBox) dialog.findViewById(R.id.ramparts_CheckBox);
-        rampartsC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rampartsR = (RadioButton) dialog.findViewById(R.id.ramparts_RadioButton);
+        rampartsR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Ramparts,");
+                }
             }
         });
         rampartsI = (ImageView) dialog.findViewById(R.id.ramparts_Image);
@@ -309,15 +332,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("ramparts clicked");
-                rampartsC.setChecked(!rampartsC.isChecked());
+                rampartsR.setChecked(!rampartsR.isChecked());
             }
         });
 
-        chevalDeFriseC = (CheckBox) dialog.findViewById(R.id.cheval_De_Frise_CheckBox);
-        chevalDeFriseC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chevalDeFriseR = (RadioButton) dialog.findViewById(R.id.cheval_De_Frise_RadioButton);
+        chevalDeFriseR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Cheval de Frise,");
+                }
             }
         });
         chevalDeFriseI = (ImageView) dialog.findViewById(R.id.cheval_De_Frise_Image);
@@ -325,15 +350,17 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Cheval de Frise clicked");
-                chevalDeFriseC.setChecked(!chevalDeFriseC.isChecked());
+                chevalDeFriseR.setChecked(!chevalDeFriseR.isChecked());
             }
         });
 
-        secretPassageC = (CheckBox) dialog.findViewById(R.id.hidden_Passage_CheckBox);
-        secretPassageC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        secretPassageR = (RadioButton) dialog.findViewById(R.id.hidden_Passage_RadioButton);
+        secretPassageR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.TELEOP_DEFENSE_LIST_INT, "Hidden Passage,");
+                }
             }
         });
         secretPassageI = (ImageView) dialog.findViewById(R.id.hidden_Passage_Image);
@@ -341,7 +368,7 @@ public class TeleopMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Secred passage clicked");
-                secretPassageC.setChecked(!secretPassageC.isChecked());
+                secretPassageR.setChecked(!secretPassageR.isChecked());
             }
         });
 
@@ -356,42 +383,51 @@ public class TeleopMain extends Fragment implements ChangeText{
                 dialog.setContentView(R.layout.position_chooser);
                 dialog.setTitle("Defense Position");
                 dialog.show();
-                final Button one = (Button) dialog.findViewById(R.id.defense_Position_1);
-                final Button two = (Button) dialog.findViewById(R.id.defense_Position_2);
-                final Button three = (Button) dialog.findViewById(R.id.defense_Position_3);
-                final Button four = (Button) dialog.findViewById(R.id.defense_Position_4);
-                final Button five = (Button) dialog.findViewById(R.id.defense_Position_5);
-                one.setOnClickListener(new View.OnClickListener() {
+                final RadioButton one = (RadioButton) dialog.findViewById(R.id.defense_Position_1);
+                final RadioButton two = (RadioButton) dialog.findViewById(R.id.defense_Position_2);
+                final RadioButton three = (RadioButton) dialog.findViewById(R.id.defense_Position_3);
+                final RadioButton four = (RadioButton) dialog.findViewById(R.id.defense_Position_4);
+                final RadioButton five = (RadioButton) dialog.findViewById(R.id.defense_Position_5);
+                one.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.TELEOP_DEFENSE_POSITION_LIST_INT, "One,");
+                        }
                     }
                 });
-                two.setOnClickListener(new View.OnClickListener() {
+                two.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.TELEOP_DEFENSE_POSITION_LIST_INT, "Two,");
+                        }
                     }
                 });
-                three.setOnClickListener(new View.OnClickListener() {
+                three.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.TELEOP_DEFENSE_POSITION_LIST_INT, "Three,");
+                        }
                     }
                 });
-                four.setOnClickListener(new View.OnClickListener() {
+                four.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.TELEOP_DEFENSE_POSITION_LIST_INT, "Four,");
+                        }
                     }
                 });
-                five.setOnClickListener(new View.OnClickListener() {
+                five.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.TELEOP_DEFENSE_POSITION_LIST_INT, "Five,");
+                        }
                     }
                 });
-
                 Button end = (Button) dialog.findViewById(R.id.defense_Placement_Button);
                 end.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -410,23 +446,23 @@ public class TeleopMain extends Fragment implements ChangeText{
         dialog.setContentView(R.layout.goal_chooser);
         dialog.setTitle("Shoot Goal");
         dialog.show();
-        final CheckBox upperLeftPitsClaimC;
+        final RadioButton upperLeftPitsClaimC;
         final ImageView upperLeftPitsClaimI;
-        final CheckBox upperMiddlePitsClaimC;
+        final RadioButton upperMiddlePitsClaimC;
         final ImageView upperMiddlePitsClaimI;
-        final CheckBox upperRightPitsClaimC;
+        final RadioButton upperRightPitsClaimC;
         final ImageView upperRightPitsClaimI;
-        final CheckBox lowerLeftPitsClaimC;
+        final RadioButton lowerLeftPitsClaimC;
         final ImageView lowerLeftPitsClaimI;
-        final CheckBox noGoalPitsClaimC;
+        final RadioButton noGoalPitsClaimC;
         final ImageView noGoalPitsClaimI;
-        final CheckBox lowerRightPitsClaimC;
+        final RadioButton lowerRightPitsClaimC;
         final ImageView lowerRightPitsClaimI;
-        upperLeftPitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Left_Check_General);
+        upperLeftPitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Left_RadioButton_General);
         upperLeftPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "Upper Left,");
             }
         });
         upperLeftPitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Left_Image_General);
@@ -438,11 +474,11 @@ public class TeleopMain extends Fragment implements ChangeText{
             }
         });
 
-        upperMiddlePitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Middle_Check_General);
+        upperMiddlePitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Middle_RadioButton_General);
         upperMiddlePitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "Upper Middle,");
             }
         });
         upperMiddlePitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Middle_Image_General);
@@ -454,11 +490,11 @@ public class TeleopMain extends Fragment implements ChangeText{
             }
         });
 
-        upperRightPitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Right_Check_General);
+        upperRightPitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Right_RadioButton_General);
         upperRightPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "Upper Right,");
             }
         });
         upperRightPitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Right_Image_General);
@@ -470,11 +506,11 @@ public class TeleopMain extends Fragment implements ChangeText{
             }
         });
 
-        lowerLeftPitsClaimC = (CheckBox) dialog.findViewById(R.id.lower_Goal_Left_Check_General);
+        lowerLeftPitsClaimC = (RadioButton) dialog.findViewById(R.id.lower_Goal_Left_RadioButton_General);
         lowerLeftPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "Lower Left,");
             }
         });
         lowerLeftPitsClaimI = (ImageView) dialog.findViewById(R.id.lower_Left_Goal_Image_General);
@@ -486,11 +522,11 @@ public class TeleopMain extends Fragment implements ChangeText{
             }
         });
 
-        noGoalPitsClaimC = (CheckBox) dialog.findViewById(R.id.no_Goal_General);
+        noGoalPitsClaimC = (RadioButton) dialog.findViewById(R.id.no_Goal_General);
         noGoalPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "No Goal,");
             }
         });
         noGoalPitsClaimI = (ImageView) dialog.findViewById(R.id.no_Goal_Image_General);
@@ -502,11 +538,11 @@ public class TeleopMain extends Fragment implements ChangeText{
             }
         });
 
-        lowerRightPitsClaimC = (CheckBox) dialog.findViewById(R.id.lower_Goal_Right_Check_General);
+        lowerRightPitsClaimC = (RadioButton) dialog.findViewById(R.id.lower_Goal_Right_RadioButton_General);
         lowerRightPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.TELEOP_SHOOT_POSITION_LIST_INT, "Lower Right,");
             }
         });
         lowerRightPitsClaimI = (ImageView) dialog.findViewById(R.id.lower_Right_Goal_Image_General);
@@ -534,8 +570,29 @@ public class TeleopMain extends Fragment implements ChangeText{
         dialog.setContentView(R.layout.tower_chooser);
         dialog.setTitle("Challenged Tower");
         dialog.show();
-        Button temp = (Button) dialog.findViewById(R.id.tower_Button);
-        temp.setOnClickListener(new View.OnClickListener() {
+        final RadioButton position_A = (RadioButton) dialog.findViewById(R.id.tower_Position_A);
+        final RadioButton position_B = (RadioButton) dialog.findViewById(R.id.tower_Position_B);
+        final RadioButton position_C = (RadioButton) dialog.findViewById(R.id.tower_Position_C);
+        position_A.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parameters.set(constants.TELEOP_CHALLENGE_POSITION_INT,"A,");
+            }
+        });
+        position_B.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parameters.set(constants.TELEOP_CHALLENGE_POSITION_INT,"B,");
+            }
+        });
+        position_C.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parameters.set(constants.TELEOP_CHALLENGE_POSITION_INT,"C,");
+            }
+        });
+        Button end = (Button) dialog.findViewById(R.id.tower_Button);
+        end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -550,8 +607,31 @@ public class TeleopMain extends Fragment implements ChangeText{
         dialog.setContentView(R.layout.tower_chooser);
         dialog.setTitle("Scaled Tower");
         dialog.show();
-        Button temp = (Button) dialog.findViewById(R.id.tower_Button);
-        temp.setOnClickListener(new View.OnClickListener() {
+        final RadioButton position_A = (RadioButton) dialog.findViewById(R.id.tower_Position_A);
+        final RadioButton position_B = (RadioButton) dialog.findViewById(R.id.tower_Position_B);
+        final RadioButton position_C = (RadioButton) dialog.findViewById(R.id.tower_Position_C);
+        position_A.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    parameters.set(constants.TELEOP_SCALED_POSITION_INT,"A,");
+                }
+            }
+        });
+        position_B.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parameters.set(constants.TELEOP_SCALED_POSITION_INT,"B,");
+            }
+        });
+        position_C.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                parameters.set(constants.TELEOP_SCALED_POSITION_INT,"C,");
+            }
+        });
+        Button end = (Button) dialog.findViewById(R.id.tower_Button);
+        end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -560,11 +640,23 @@ public class TeleopMain extends Fragment implements ChangeText{
     }
 
     public void breechedDefenses(View v) {
-
+        breached = !breached;
+        parameters.set(constants.TELEOP_BREECHED_INT,Boolean.toString(breached)+",");
+        if(breached) {
+            breechedTowerB.setBackgroundColor(Color.parseColor("#99ff00"));
+        } else {
+            breechedTowerB.setBackgroundColor(Color.parseColor("lightgrey"));
+        }
     }
 
     public void capturedTower(View v) {
-
+        capture = !capture;
+        parameters.set(constants.TELEOP_CAPTURED_INT,Boolean.toString(capture)+",");
+        if(capture) {
+            capturedTowerB.setBackgroundColor(Color.parseColor("#99ff00"));
+        } else {
+            capturedTowerB.setBackgroundColor(Color.parseColor("lightgrey"));
+        }
     }
 
     public static Fragment newInstance(Handler handler) {

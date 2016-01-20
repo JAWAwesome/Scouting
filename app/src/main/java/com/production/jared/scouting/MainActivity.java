@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public int currentPosition = 0;
     public File location;
     public File backUpLocation;
+    public File pictureLocation;
     public boolean fileAlreadyExists;
     public boolean fileAccessAvailable;
     ArrayList<String> parameters = new ArrayList<String>();
@@ -288,6 +291,20 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (requestCode == constants.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                setup.setPicture(imageBitmap,pictureLocation);
+            }
+        } catch(Exception e) {
+            log(e.getStackTrace().toString());
+            log("Error with picture");
+        }
+    }
+
 
 
 
@@ -304,8 +321,8 @@ public class MainActivity extends AppCompatActivity {
         if (fileAccessAvailable) {
             log("File storage is available");
             // Create file
-            location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), fileName);
-            backUpLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), backUpFileName);
+            location = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES+"/Scouting/"), fileName);
+            backUpLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES+"/Scouting/"), backUpFileName);
             // Check if the file already exists before printing to it
             fileAlreadyExists = location.exists();
             log("The file: " + location.toString() + "  exists: " + fileAlreadyExists);
@@ -361,16 +378,22 @@ public class MainActivity extends AppCompatActivity {
         outputText += constants.ROBOT_WIDTH+",";
         outputText += constants.ROBOT_LENGTH+",";
         outputText += constants.ROBOT_QUALITY+",";
-        outputText += constants.AUTO_ACTION_1+",";
-        outputText += constants.AUTO_ACTION_2+",";
-        outputText += constants.AUTO_ACTION_3+",";
-        outputText += constants.AUTO_ACTION_4+",";
-        outputText += constants.AUTO_ACTION_5+",";
-        outputText += constants.TELEOP_ACTION_1+",";
-        outputText += constants.TELEOP_ACTION_2+",";
-        outputText += constants.TELEOP_ACTION_3+",";
-        outputText += constants.TELEOP_ACTION_4+",";
-        outputText += constants.TELEOP_ACTION_5+",";
+        outputText += constants.AUTO_DEFENSE_REACHED+",";
+        outputText += constants.AUTO_DEFENSE_REACHED_POSITION+",";
+        outputText += constants.AUTO_DEFENSE_CROSSED+",";
+        outputText += constants.AUTO_DEFENSE_CROSSED_POSITION+",";
+        outputText += constants.AUTO_SHOOT_POSITION+",";
+        outputText += constants.AUTO_OTHER_INFORMATION+",";
+        outputText += constants.TELEOP_DEFENSE_LIST+",";
+        outputText += constants.TELEOP_DEFENSE_POSITION_LIST+",";
+        outputText += constants.TELEOP_DEFENSE_COUNT+",";
+        outputText += constants.TELEOP_SHOOT_POSITION_LIST+",";
+        outputText += constants.TELEOP_SHOOT_COUNT+",";
+        outputText += constants.TELEOP_CHALLENGE_POSITION+",";
+        outputText += constants.TELEOP_SCALED_POSITION+",";
+        outputText += constants.TELEOP_BREECHED+",";
+        outputText += constants.TELEOP_CAPTURED+",";
+        outputText += constants.TELEOP_OTHER_INFORMATION+",";
         ArrayList<String> temp = new ArrayList<>();
         temp.add(outputText);
         if (fileAccessAvailable) {
@@ -469,8 +492,14 @@ public class MainActivity extends AppCompatActivity {
 
     // Close the file because done writing
     public void close() {
-        printer.close();
-        backUp.close();
+        try {
+            if (printer != null && backUp != null) {
+                printer.close();
+                backUp.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Log a message
@@ -738,18 +767,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonPress(View v) {
-        // Ask what to do
-        final Dialog dialog = new Dialog(this);
-        // use the layout file created
-        dialog.setContentView(R.layout.position_chooser);
-        dialog.setTitle("Testing!");
-        dialog.show();
-        Button temp = (Button) dialog.findViewById(R.id.defense_Placement_Button);
-        temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        log("Taking Picture");
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            getValues();
+            pictureLocation = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES)+"/Scouting/",parameters.get(3).substring(0, parameters.get(3).indexOf(","))+".jpg");
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(pictureLocation));
+            startActivityForResult(takePictureIntent, constants.REQUEST_IMAGE_CAPTURE);
+        }
     }
 }

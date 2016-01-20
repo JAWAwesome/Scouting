@@ -19,21 +19,88 @@
             android:layout_marginBottom="15dp"
             android:text="@string/defenseCrossed"
             android:id="@+id/defenses_Crossable_TextView" />
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:orientation="horizontal">
-            <TableRow>
-                <CheckBox
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center_horizontal">
+                <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginRight="15dp"
                     android:text="@string/sallyport"
-                    android:id="@+id/sally_Port_CheckBox"
-                    android:layout_column="0" />
+                    android:id="@+id/sally_Port_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/drawbridge"
+                    android:id="@+id/drawbridge_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/moat"
+                    android:id="@+id/moat_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/rockwall"
+                    android:id="@+id/rock_Wall_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/roughTerrain"
+                    android:id="@+id/rough_Terrain_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/portcullis"
+                    android:id="@+id/portcullis_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/ramparts"
+                    android:id="@+id/ramparts_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/chevaldefrise"
+                    android:id="@+id/cheval_De_Frise_RadioButton" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/hiddenPassage"
+                    android:id="@+id/hidden_Passage_RadioButton" />
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_horizontal">
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -41,18 +108,7 @@
                     android:id="@+id/sally_Port_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/sallyport"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/drawbridge"
-                    android:id="@+id/drawbridge_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false"/>
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -60,18 +116,7 @@
                     android:id="@+id/drawbridge_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/drawbridge"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/moat"
-                    android:id="@+id/moat_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -79,18 +124,7 @@
                     android:id="@+id/moat_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/moat"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/rockwall"
-                    android:id="@+id/rock_Wall_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -98,18 +132,7 @@
                     android:id="@+id/rock_Wall_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/rockwall"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/roughTerrain"
-                    android:id="@+id/rough_Terrain_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -117,18 +140,7 @@
                     android:id="@+id/rough_Terrain_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/roughterrain"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/portcullis"
-                    android:id="@+id/portcullis_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -136,18 +148,7 @@
                     android:id="@+id/portcullis_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/portcullis"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/ramparts"
-                    android:id="@+id/ramparts_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -155,18 +156,7 @@
                     android:id="@+id/ramparts_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ramparts"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/chevaldefrise"
-                    android:id="@+id/cheval_De_Frise_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -174,18 +164,7 @@
                     android:id="@+id/cheval_De_Frise_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/chevaldefrise"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginRight="15dp"
-                    android:text="@string/hiddenPassage"
-                    android:id="@+id/hidden_Passage_CheckBox"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
@@ -193,10 +172,9 @@
                     android:id="@+id/hidden_Passage_Image"
                     android:scaleType="fitCenter"
                     android:src="@drawable/hiddenpassage"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1"/>
-            </TableRow>
-        </TableLayout>
+                    android:adjustViewBounds="false" />
+            </LinearLayout>
+        </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

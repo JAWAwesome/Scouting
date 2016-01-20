@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RadioButton;
 
 import java.util.ArrayList;
 
@@ -46,11 +44,12 @@ public class AutoMain extends Fragment implements ChangeText{
         // Create the fragment
         View v = inflater.inflate(R.layout.auto_main, container, false);
         auto = v;
-        parameters.add(constants.DEFAULT_AUTO_ACTION_1 + ",");
-        parameters.add(constants.DEFAULT_AUTO_ACTION_2+",");
-        parameters.add(constants.DEFAULT_AUTO_ACTION_3 + ",");
-        parameters.add(constants.DEFAULT_AUTO_ACTION_4+",");
-        parameters.add(constants.DEFAULT_AUTO_ACTION_5 + ",");
+        parameters.add(constants.DEFAULT_AUTO_DEFENSE_REACHED + ",");
+        parameters.add(constants.DEFAULT_AUTO_DEFENSE_REACHED_POSITION+",");
+        parameters.add(constants.DEFAULT_AUTO_DEFENSE_CROSSED + ",");
+        parameters.add(constants.DEFAULT_AUTO_DEFENSE_CROSSED_POSITION+",");
+        parameters.add(constants.DEFAULT_AUTO_SHOOT_POSITION + ",");
+        parameters.add(constants.DEFAULT_AUTO_OTHER_INFORMATION + ",");
         return v;
     }
 
@@ -111,7 +110,7 @@ public class AutoMain extends Fragment implements ChangeText{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                parameters.set(constants.AUTO_OTHER_INFORMATION_INT,s.toString());
             }
 
             @Override
@@ -134,30 +133,32 @@ public class AutoMain extends Fragment implements ChangeText{
         dialog.setContentView(R.layout.defense_chooser);
         dialog.setTitle("Defense Reached");
         dialog.show();
-        final CheckBox sallyPortC;
+        final RadioButton sallyPortR;
         final ImageView sallyPortI;
-        final CheckBox drawbridgeC;
+        final RadioButton drawbridgeR;
         final ImageView drawbridgeI;
-        final CheckBox moatC;
+        final RadioButton moatR;
         final ImageView moatI;
-        final CheckBox rockWallC;
+        final RadioButton rockWallR;
         final ImageView rockWallI;
-        final CheckBox roughTerrainC;
+        final RadioButton roughTerrainR;
         final ImageView roughTerrainI;
-        final CheckBox portcullisC;
+        final RadioButton portcullisR;
         final ImageView portcullisI;
-        final CheckBox rampartsC;
+        final RadioButton rampartsR;
         final ImageView rampartsI;
-        final CheckBox chevalDeFriseC;
+        final RadioButton chevalDeFriseR;
         final ImageView chevalDeFriseI;
-        final CheckBox secretPassageC;
+        final RadioButton secretPassageR;
         final ImageView secretPassageI;
 
-        sallyPortC = (CheckBox) dialog.findViewById(R.id.sally_Port_CheckBox);
-        sallyPortC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sallyPortR = (RadioButton) dialog.findViewById(R.id.sally_Port_RadioButton);
+        sallyPortR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Sally Port,");
+                }
             }
         });
         sallyPortI = (ImageView) dialog.findViewById(R.id.sally_Port_Image);
@@ -165,15 +166,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Sally port clicked");
-                sallyPortC.setChecked(!sallyPortC.isChecked());
+                sallyPortR.setChecked(!sallyPortR.isChecked());
             }
         });
 
-        drawbridgeC = (CheckBox) dialog.findViewById(R.id.drawbridge_CheckBox);
-        drawbridgeC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        drawbridgeR = (RadioButton) dialog.findViewById(R.id.drawbridge_RadioButton);
+        drawbridgeR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Drawbridge,");
+                }
             }
         });
         drawbridgeI = (ImageView) dialog.findViewById(R.id.drawbridge_Image);
@@ -181,15 +184,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Drawbridge clicked");
-                drawbridgeC.setChecked(!drawbridgeC.isChecked());
+                drawbridgeR.setChecked(!drawbridgeR.isChecked());
             }
         });
 
-        moatC = (CheckBox) dialog.findViewById(R.id.moat_CheckBox);
-        moatC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        moatR = (RadioButton) dialog.findViewById(R.id.moat_RadioButton);
+        moatR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Moat,");
+                }
             }
         });
         moatI = (ImageView) dialog.findViewById(R.id.moat_Image);
@@ -197,15 +202,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Moat clicked");
-                moatC.setChecked(!moatC.isChecked());
+                moatR.setChecked(!moatR.isChecked());
             }
         });
 
-        rockWallC = (CheckBox) dialog.findViewById(R.id.rock_Wall_CheckBox);
-        rockWallC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rockWallR = (RadioButton) dialog.findViewById(R.id.rock_Wall_RadioButton);
+        rockWallR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Rock Wall,");
+                }
             }
         });
         rockWallI = (ImageView) dialog.findViewById(R.id.rock_Wall_Image);
@@ -213,15 +220,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rock wall clicked");
-                rockWallC.setChecked(!rockWallC.isChecked());
+                rockWallR.setChecked(!rockWallR.isChecked());
             }
         });
 
-        roughTerrainC = (CheckBox) dialog.findViewById(R.id.rough_Terrain_CheckBox);
-        roughTerrainC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        roughTerrainR = (RadioButton) dialog.findViewById(R.id.rough_Terrain_RadioButton);
+        roughTerrainR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Rough Terrain,");
+                }
             }
         });
         roughTerrainI = (ImageView) dialog.findViewById(R.id.rough_Terrain_Image);
@@ -229,15 +238,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rough terrain clicked");
-                roughTerrainC.setChecked(!roughTerrainC.isChecked());
+                roughTerrainR.setChecked(!roughTerrainR.isChecked());
             }
         });
 
-        portcullisC = (CheckBox) dialog.findViewById(R.id.portcullis_CheckBox);
-        portcullisC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        portcullisR = (RadioButton) dialog.findViewById(R.id.portcullis_RadioButton);
+        portcullisR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Portcullis,");
+                }
             }
         });
         portcullisI = (ImageView) dialog.findViewById(R.id.portcullis_Image);
@@ -245,15 +256,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Portcullis clicked");
-                portcullisC.setChecked(!portcullisC.isChecked());
+                portcullisR.setChecked(!portcullisR.isChecked());
             }
         });
 
-        rampartsC = (CheckBox) dialog.findViewById(R.id.ramparts_CheckBox);
-        rampartsC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rampartsR = (RadioButton) dialog.findViewById(R.id.ramparts_RadioButton);
+        rampartsR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Ramparts,");
+                }
             }
         });
         rampartsI = (ImageView) dialog.findViewById(R.id.ramparts_Image);
@@ -261,15 +274,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("ramparts clicked");
-                rampartsC.setChecked(!rampartsC.isChecked());
+                rampartsR.setChecked(!rampartsR.isChecked());
             }
         });
 
-        chevalDeFriseC = (CheckBox) dialog.findViewById(R.id.cheval_De_Frise_CheckBox);
-        chevalDeFriseC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chevalDeFriseR = (RadioButton) dialog.findViewById(R.id.cheval_De_Frise_RadioButton);
+        chevalDeFriseR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Cheval de Frise,");
+                }
             }
         });
         chevalDeFriseI = (ImageView) dialog.findViewById(R.id.cheval_De_Frise_Image);
@@ -277,15 +292,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Cheval de Frise clicked");
-                chevalDeFriseC.setChecked(!chevalDeFriseC.isChecked());
+                chevalDeFriseR.setChecked(!chevalDeFriseR.isChecked());
             }
         });
 
-        secretPassageC = (CheckBox) dialog.findViewById(R.id.hidden_Passage_CheckBox);
-        secretPassageC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        secretPassageR = (RadioButton) dialog.findViewById(R.id.hidden_Passage_RadioButton);
+        secretPassageR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_REACHED_INT, "Hidden Passage,");
+                }
             }
         });
         secretPassageI = (ImageView) dialog.findViewById(R.id.hidden_Passage_Image);
@@ -293,7 +310,7 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Secred passage clicked");
-                secretPassageC.setChecked(!secretPassageC.isChecked());
+                secretPassageR.setChecked(!secretPassageR.isChecked());
             }
         });
 
@@ -308,39 +325,49 @@ public class AutoMain extends Fragment implements ChangeText{
                 dialog.setContentView(R.layout.position_chooser);
                 dialog.setTitle("Defense Position");
                 dialog.show();
-                final Button one = (Button) dialog.findViewById(R.id.defense_Position_1);
-                final Button two = (Button) dialog.findViewById(R.id.defense_Position_2);
-                final Button three = (Button) dialog.findViewById(R.id.defense_Position_3);
-                final Button four = (Button) dialog.findViewById(R.id.defense_Position_4);
-                final Button five = (Button) dialog.findViewById(R.id.defense_Position_5);
-                one.setOnClickListener(new View.OnClickListener() {
+                final RadioButton one = (RadioButton) dialog.findViewById(R.id.defense_Position_1);
+                final RadioButton two = (RadioButton) dialog.findViewById(R.id.defense_Position_2);
+                final RadioButton three = (RadioButton) dialog.findViewById(R.id.defense_Position_3);
+                final RadioButton four = (RadioButton) dialog.findViewById(R.id.defense_Position_4);
+                final RadioButton five = (RadioButton) dialog.findViewById(R.id.defense_Position_5);
+                one.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_REACHED_POSITION_INT, "One,");
+                        }
                     }
                 });
-                two.setOnClickListener(new View.OnClickListener() {
+                two.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_REACHED_POSITION_INT, "Two,");
+                        }
                     }
                 });
-                three.setOnClickListener(new View.OnClickListener() {
+                three.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_REACHED_POSITION_INT, "Three,");
+                        }
                     }
                 });
-                four.setOnClickListener(new View.OnClickListener() {
+                four.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_REACHED_POSITION_INT, "Four,");
+                        }
                     }
                 });
-                five.setOnClickListener(new View.OnClickListener() {
+                five.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_REACHED_POSITION_INT, "Five,");
+                        }
                     }
                 });
                 Button end = (Button) dialog.findViewById(R.id.defense_Placement_Button);
@@ -359,32 +386,34 @@ public class AutoMain extends Fragment implements ChangeText{
         final Dialog dialog = new Dialog(getActivity());
         // use the layout file created
         dialog.setContentView(R.layout.defense_chooser);
-        dialog.setTitle("Crossed Defense");
+        dialog.setTitle("Defense Crossed");
         dialog.show();
-        final CheckBox sallyPortC;
+        final RadioButton sallyPortR;
         final ImageView sallyPortI;
-        final CheckBox drawbridgeC;
+        final RadioButton drawbridgeR;
         final ImageView drawbridgeI;
-        final CheckBox moatC;
+        final RadioButton moatR;
         final ImageView moatI;
-        final CheckBox rockWallC;
+        final RadioButton rockWallR;
         final ImageView rockWallI;
-        final CheckBox roughTerrainC;
+        final RadioButton roughTerrainR;
         final ImageView roughTerrainI;
-        final CheckBox portcullisC;
+        final RadioButton portcullisR;
         final ImageView portcullisI;
-        final CheckBox rampartsC;
+        final RadioButton rampartsR;
         final ImageView rampartsI;
-        final CheckBox chevalDeFriseC;
+        final RadioButton chevalDeFriseR;
         final ImageView chevalDeFriseI;
-        final CheckBox secretPassageC;
+        final RadioButton secretPassageR;
         final ImageView secretPassageI;
 
-        sallyPortC = (CheckBox) dialog.findViewById(R.id.sally_Port_CheckBox);
-        sallyPortC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sallyPortR = (RadioButton) dialog.findViewById(R.id.sally_Port_RadioButton);
+        sallyPortR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Sally Port,");
+                }
             }
         });
         sallyPortI = (ImageView) dialog.findViewById(R.id.sally_Port_Image);
@@ -392,15 +421,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Sally port clicked");
-                sallyPortC.setChecked(!sallyPortC.isChecked());
+                sallyPortR.setChecked(!sallyPortR.isChecked());
             }
         });
 
-        drawbridgeC = (CheckBox) dialog.findViewById(R.id.drawbridge_CheckBox);
-        drawbridgeC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        drawbridgeR = (RadioButton) dialog.findViewById(R.id.drawbridge_RadioButton);
+        drawbridgeR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Drawbridge,");
+                }
             }
         });
         drawbridgeI = (ImageView) dialog.findViewById(R.id.drawbridge_Image);
@@ -408,15 +439,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Drawbridge clicked");
-                drawbridgeC.setChecked(!drawbridgeC.isChecked());
+                drawbridgeR.setChecked(!drawbridgeR.isChecked());
             }
         });
 
-        moatC = (CheckBox) dialog.findViewById(R.id.moat_CheckBox);
-        moatC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        moatR = (RadioButton) dialog.findViewById(R.id.moat_RadioButton);
+        moatR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Moat,");
+                }
             }
         });
         moatI = (ImageView) dialog.findViewById(R.id.moat_Image);
@@ -424,15 +457,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Moat clicked");
-                moatC.setChecked(!moatC.isChecked());
+                moatR.setChecked(!moatR.isChecked());
             }
         });
 
-        rockWallC = (CheckBox) dialog.findViewById(R.id.rock_Wall_CheckBox);
-        rockWallC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rockWallR = (RadioButton) dialog.findViewById(R.id.rock_Wall_RadioButton);
+        rockWallR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Rock Wall,");
+                }
             }
         });
         rockWallI = (ImageView) dialog.findViewById(R.id.rock_Wall_Image);
@@ -440,15 +475,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rock wall clicked");
-                rockWallC.setChecked(!rockWallC.isChecked());
+                rockWallR.setChecked(!rockWallR.isChecked());
             }
         });
 
-        roughTerrainC = (CheckBox) dialog.findViewById(R.id.rough_Terrain_CheckBox);
-        roughTerrainC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        roughTerrainR = (RadioButton) dialog.findViewById(R.id.rough_Terrain_RadioButton);
+        roughTerrainR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Rough Terrain,");
+                }
             }
         });
         roughTerrainI = (ImageView) dialog.findViewById(R.id.rough_Terrain_Image);
@@ -456,15 +493,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Rough terrain clicked");
-                roughTerrainC.setChecked(!roughTerrainC.isChecked());
+                roughTerrainR.setChecked(!roughTerrainR.isChecked());
             }
         });
 
-        portcullisC = (CheckBox) dialog.findViewById(R.id.portcullis_CheckBox);
-        portcullisC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        portcullisR = (RadioButton) dialog.findViewById(R.id.portcullis_RadioButton);
+        portcullisR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Portcullis,");
+                }
             }
         });
         portcullisI = (ImageView) dialog.findViewById(R.id.portcullis_Image);
@@ -472,15 +511,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Portcullis clicked");
-                portcullisC.setChecked(!portcullisC.isChecked());
+                portcullisR.setChecked(!portcullisR.isChecked());
             }
         });
 
-        rampartsC = (CheckBox) dialog.findViewById(R.id.ramparts_CheckBox);
-        rampartsC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rampartsR = (RadioButton) dialog.findViewById(R.id.ramparts_RadioButton);
+        rampartsR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Ramparts,");
+                }
             }
         });
         rampartsI = (ImageView) dialog.findViewById(R.id.ramparts_Image);
@@ -488,15 +529,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("ramparts clicked");
-                rampartsC.setChecked(!rampartsC.isChecked());
+                rampartsR.setChecked(!rampartsR.isChecked());
             }
         });
 
-        chevalDeFriseC = (CheckBox) dialog.findViewById(R.id.cheval_De_Frise_CheckBox);
-        chevalDeFriseC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chevalDeFriseR = (RadioButton) dialog.findViewById(R.id.cheval_De_Frise_RadioButton);
+        chevalDeFriseR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Cheval de Frise,");
+                }
             }
         });
         chevalDeFriseI = (ImageView) dialog.findViewById(R.id.cheval_De_Frise_Image);
@@ -504,15 +547,17 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Cheval de Frise clicked");
-                chevalDeFriseC.setChecked(!chevalDeFriseC.isChecked());
+                chevalDeFriseR.setChecked(!chevalDeFriseR.isChecked());
             }
         });
 
-        secretPassageC = (CheckBox) dialog.findViewById(R.id.hidden_Passage_CheckBox);
-        secretPassageC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        secretPassageR = (RadioButton) dialog.findViewById(R.id.hidden_Passage_RadioButton);
+        secretPassageR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                if (isChecked) {
+                    parameters.set(constants.AUTO_DEFENSE_CROSSED_INT, "Hidden Passage,");
+                }
             }
         });
         secretPassageI = (ImageView) dialog.findViewById(R.id.hidden_Passage_Image);
@@ -520,7 +565,7 @@ public class AutoMain extends Fragment implements ChangeText{
             @Override
             public void onClick(View v) {
                 log("Secred passage clicked");
-                secretPassageC.setChecked(!secretPassageC.isChecked());
+                secretPassageR.setChecked(!secretPassageR.isChecked());
             }
         });
 
@@ -535,42 +580,51 @@ public class AutoMain extends Fragment implements ChangeText{
                 dialog.setContentView(R.layout.position_chooser);
                 dialog.setTitle("Defense Position");
                 dialog.show();
-                final Button one = (Button) dialog.findViewById(R.id.defense_Position_1);
-                final Button two = (Button) dialog.findViewById(R.id.defense_Position_2);
-                final Button three = (Button) dialog.findViewById(R.id.defense_Position_3);
-                final Button four = (Button) dialog.findViewById(R.id.defense_Position_4);
-                final Button five = (Button) dialog.findViewById(R.id.defense_Position_5);
-                one.setOnClickListener(new View.OnClickListener() {
+                final RadioButton one = (RadioButton) dialog.findViewById(R.id.defense_Position_1);
+                final RadioButton two = (RadioButton) dialog.findViewById(R.id.defense_Position_2);
+                final RadioButton three = (RadioButton) dialog.findViewById(R.id.defense_Position_3);
+                final RadioButton four = (RadioButton) dialog.findViewById(R.id.defense_Position_4);
+                final RadioButton five = (RadioButton) dialog.findViewById(R.id.defense_Position_5);
+                one.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_CROSSED_POSITION_INT, "One,");
+                        }
                     }
                 });
-                two.setOnClickListener(new View.OnClickListener() {
+                two.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_CROSSED_POSITION_INT, "Two,");
+                        }
                     }
                 });
-                three.setOnClickListener(new View.OnClickListener() {
+                three.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_CROSSED_POSITION_INT, "Three,");
+                        }
                     }
                 });
-                four.setOnClickListener(new View.OnClickListener() {
+                four.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_CROSSED_POSITION_INT, "Four,");
+                        }
                     }
                 });
-                five.setOnClickListener(new View.OnClickListener() {
+                five.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onClick(View v) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            parameters.set(constants.AUTO_DEFENSE_CROSSED_POSITION_INT, "Five,");
+                        }
                     }
                 });
-
                 Button end = (Button) dialog.findViewById(R.id.defense_Placement_Button);
                 end.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -589,23 +643,23 @@ public class AutoMain extends Fragment implements ChangeText{
         dialog.setContentView(R.layout.goal_chooser);
         dialog.setTitle("Shoot Goal");
         dialog.show();
-        final CheckBox upperLeftPitsClaimC;
+        final RadioButton upperLeftPitsClaimC;
         final ImageView upperLeftPitsClaimI;
-        final CheckBox upperMiddlePitsClaimC;
+        final RadioButton upperMiddlePitsClaimC;
         final ImageView upperMiddlePitsClaimI;
-        final CheckBox upperRightPitsClaimC;
+        final RadioButton upperRightPitsClaimC;
         final ImageView upperRightPitsClaimI;
-        final CheckBox lowerLeftPitsClaimC;
+        final RadioButton lowerLeftPitsClaimC;
         final ImageView lowerLeftPitsClaimI;
-        final CheckBox noGoalPitsClaimC;
+        final RadioButton noGoalPitsClaimC;
         final ImageView noGoalPitsClaimI;
-        final CheckBox lowerRightPitsClaimC;
+        final RadioButton lowerRightPitsClaimC;
         final ImageView lowerRightPitsClaimI;
-        upperLeftPitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Left_Check_General);
+        upperLeftPitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Left_RadioButton_General);
         upperLeftPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "Upper Left,");
             }
         });
         upperLeftPitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Left_Image_General);
@@ -617,11 +671,11 @@ public class AutoMain extends Fragment implements ChangeText{
             }
         });
 
-        upperMiddlePitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Middle_Check_General);
+        upperMiddlePitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Middle_RadioButton_General);
         upperMiddlePitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "Upper Middle,");
             }
         });
         upperMiddlePitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Middle_Image_General);
@@ -633,11 +687,11 @@ public class AutoMain extends Fragment implements ChangeText{
             }
         });
 
-        upperRightPitsClaimC = (CheckBox) dialog.findViewById(R.id.upper_Goal_Right_Check_General);
+        upperRightPitsClaimC = (RadioButton) dialog.findViewById(R.id.upper_Goal_Right_RadioButton_General);
         upperRightPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "Upper Right,");
             }
         });
         upperRightPitsClaimI = (ImageView) dialog.findViewById(R.id.upper_Goal_Right_Image_General);
@@ -649,11 +703,11 @@ public class AutoMain extends Fragment implements ChangeText{
             }
         });
 
-        lowerLeftPitsClaimC = (CheckBox) dialog.findViewById(R.id.lower_Goal_Left_Check_General);
+        lowerLeftPitsClaimC = (RadioButton) dialog.findViewById(R.id.lower_Goal_Left_RadioButton_General);
         lowerLeftPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "Lower Left,");
             }
         });
         lowerLeftPitsClaimI = (ImageView) dialog.findViewById(R.id.lower_Left_Goal_Image_General);
@@ -665,11 +719,11 @@ public class AutoMain extends Fragment implements ChangeText{
             }
         });
 
-        noGoalPitsClaimC = (CheckBox) dialog.findViewById(R.id.no_Goal_General);
+        noGoalPitsClaimC = (RadioButton) dialog.findViewById(R.id.no_Goal_General);
         noGoalPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "No Goal,");
             }
         });
         noGoalPitsClaimI = (ImageView) dialog.findViewById(R.id.no_Goal_Image_General);
@@ -681,11 +735,11 @@ public class AutoMain extends Fragment implements ChangeText{
             }
         });
 
-        lowerRightPitsClaimC = (CheckBox) dialog.findViewById(R.id.lower_Goal_Right_Check_General);
+        lowerRightPitsClaimC = (RadioButton) dialog.findViewById(R.id.lower_Goal_Right_RadioButton_General);
         lowerRightPitsClaimC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                parameters.set(0, isChecked + ",");
+                parameters.set(constants.AUTO_SHOOT_POSITION_INT, "Lower Right,");
             }
         });
         lowerRightPitsClaimI = (ImageView) dialog.findViewById(R.id.lower_Right_Goal_Image_General);

@@ -22,7 +22,9 @@
     <string name="setup_Person_Name">Your name:</string>
     <string name="setup_Team_Name">"Team name:</string>
     <string name="setup_Team_Number">Team number:</string>
+    <string name="picture_TextView">Take a picture:</string>
     <!-- Button name -->
+    <string name="picture_Button">Take Robot Picture</string>
     <string name="setup_Button_Next_Setup">Go to Pits</string>
 
 

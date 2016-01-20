@@ -19,72 +19,103 @@
             android:layout_marginRight="15dp"
             android:text="@string/goalMade"
             android:id="@+id/shooting_TextView" />
-        <TableLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
-            <TableRow>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center_horizontal">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/upperLeftGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/upper_Goal_Left_RadioButton_General" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/upperMiddleGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/upper_Goal_Middle_RadioButton_General" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/upperRightGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/upper_Goal_Right_RadioButton_General" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/lowerLeftGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/lower_Goal_Left_RadioButton_General" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/noGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/no_Goal_General" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/lowerRightGoal"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/lower_Goal_Right_RadioButton_General" />
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center_horizontal">
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Left_Image_General"
                     android:scaleType="fitCenter"
+                    android:layout_marginBottom="15dp"
                     android:src="@drawable/upperlefttower"
-                    android:adjustViewBounds="false"
-                    android:layout_column="0"/>
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Middle_Image_General"
                     android:scaleType="fitCenter"
+                    android:layout_marginBottom="15dp"
                     android:src="@drawable/uppermiddletower"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/upper_Goal_Right_Image_General"
                     android:scaleType="fitCenter"
+                    android:layout_marginBottom="15dp"
                     android:src="@drawable/upperrighttower"
-                    android:adjustViewBounds="false"
-                    android:layout_column="2" />
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/upperLeftGoal"
-                    android:id="@+id/upper_Goal_Left_Check_General"
-                    android:layout_column="0"/>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/upperMiddleGoal"
-                    android:id="@+id/upper_Goal_Middle_Check_General"
-                    android:layout_column="1"/>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/upperRightGoal"
-                    android:id="@+id/upper_Goal_Right_Check_General"
-                    android:layout_column="2"/>
-            </TableRow>
-            <TableRow>
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
                     android:layout_weight="1"
                     android:id="@+id/lower_Left_Goal_Image_General"
                     android:scaleType="fitCenter"
+
                     android:src="@drawable/bottomlefttower"
-                    android:adjustViewBounds="false"
-                    android:layout_column="0" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
@@ -92,8 +123,7 @@
                     android:id="@+id/no_Goal_Image_General"
                     android:scaleType="fitCenter"
                     android:src="@drawable/miss"
-                    android:adjustViewBounds="false"
-                    android:layout_column="1" />
+                    android:adjustViewBounds="false" />
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="150dp"
@@ -101,33 +131,9 @@
                     android:id="@+id/lower_Right_Goal_Image_General"
                     android:scaleType="fitCenter"
                     android:src="@drawable/bottomrighttower"
-                    android:adjustViewBounds="false"
-                    android:layout_column="2" />
-            </TableRow>
-            <TableRow>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/lowerLeftGoal"
-                    android:id="@+id/lower_Goal_Left_Check_General"
-                    android:layout_column="0"/>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/noGoal"
-                    android:id="@+id/no_Goal_General"
-                    android:layout_column="1"/>
-                <CheckBox
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/lowerRightGoal"
-                    android:id="@+id/lower_Goal_Right_Check_General"
-                    android:layout_column="2"/>
-            </TableRow>
-        </TableLayout>
+                    android:adjustViewBounds="false" />
+            </LinearLayout>
+        </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -20,39 +20,38 @@
             android:id="@+id/tower_Placement_TextView" />
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:id="@+id/tower_Placement_Image"
             android:scaleType="fitCenter"
             android:src="@drawable/capturescalepositionlarge"
             android:adjustViewBounds="false" />
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/tower_Position_A"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:text="@string/tower_Position_A" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/tower_Position_A"
+                android:id="@+id/tower_Position_A"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/tower_Position_B"
-                android:layout_marginBottom="15dp"
-                android:text="@string/tower_Position_B" />
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:text="@string/tower_Position_B"
+                android:id="@+id/tower_Position_B"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:id="@+id/tower_Position_C"
-                android:layout_marginBottom="15dp"
-                android:text="@string/tower_Position_C" />
-        </LinearLayout>
+                android:layout_marginRight="15dp"
+                android:text="@string/tower_Position_C"
+                android:id="@+id/tower_Position_C"/>
+        </RadioGroup>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

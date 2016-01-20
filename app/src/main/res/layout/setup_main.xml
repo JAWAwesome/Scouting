@@ -55,6 +55,28 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/setupTeamNumberEditText" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/picture_TextView"
+            android:id="@+id/picture_TextView"
+            android:layout_gravity="center_horizontal" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/picture_Button"
+            android:id="@+id/picture_Button"
+            android:onClick="onButtonPress"
+            android:textSize="25dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/picture_Thumb_Nail"
+            android:scaleType="fitCenter"
+            android:src="@drawable/other"
+            android:adjustViewBounds="false" />
         <!-- Progression button -->
         <Button
             android:layout_width="match_parent"

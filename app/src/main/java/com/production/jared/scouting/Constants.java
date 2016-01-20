@@ -1,5 +1,6 @@
 package com.production.jared.scouting;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -7,10 +8,12 @@ import android.graphics.drawable.Drawable;
  */
 public class Constants {
     // Default action values
+    // Setup
     public final String DEFAULT_PERSON_NAME = "Jared Wagner";
     public final String DEFAULT_TEAM_NAME = "Absolute Zero Electricity";
     public final String DEFAULT_TEAM_NUMBER = "3941";
 
+    // Pits
     public final String DEFAULT_PITS_SALLY_PORT = "false";
     public final String DEFAULT_PITS_DRAWBRIDGE = "false";
     public final String DEFAULT_PITS_MOAT = "false";
@@ -26,7 +29,6 @@ public class Constants {
     public final String DEFAULT_PITS_BOTTOM_LEFT_GOAL = "false";
     public final String DEFAULT_PITS_NO_GOAL = "false";
     public final String DEFAULT_PITS_BOTTOM_RIGHT_GOAL = "false";
-
     public final String DEFAULT_PITS_ASSISTED_SHOOTER = "false";
     public final String DEFAULT_PITS_SHOOTER_TYPE = "kicker";
 
@@ -42,18 +44,31 @@ public class Constants {
     public final String DEFAULT_ROBOT_LENGTH = "32";
     public final String DEFAULT_ROBOT_QUALITY = "High";
 
-    public final String DEFAULT_AUTO_ACTION_1 = "forward";
-    public final String DEFAULT_AUTO_ACTION_2 = "left";
-    public final String DEFAULT_AUTO_ACTION_3 = "right";
-    public final String DEFAULT_AUTO_ACTION_4 = "none";
-    public final String DEFAULT_AUTO_ACTION_5 = "back";
+    // Auto
+    public final String DEFAULT_AUTO_DEFENSE_REACHED = "None";
+    public final String DEFAULT_AUTO_DEFENSE_REACHED_POSITION = "NONE";
+    public final String DEFAULT_AUTO_DEFENSE_CROSSED = "None";
+    public final String DEFAULT_AUTO_DEFENSE_CROSSED_POSITION = "None";
+    public final String DEFAULT_AUTO_SHOOT_POSITION = "None";
+    public final String DEFAULT_AUTO_OTHER_INFORMATION = "None";
 
-    public final String DEFAULT_TELEOP_ACTION_1 = "win";
-    public final String DEFAULT_TELEOP_ACTION_2 = "lose";
-    public final String DEFAULT_TELEOP_ACTION_3 = "stop";
-    public final String DEFAULT_TELEOP_ACTION_4 = "pass";
-    public final String DEFAULT_TELEOP_ACTION_5 = "score";
+    // Teleop
+    public final String DEFAULT_TELEOP_DEFENSE_LIST = "None";
+    public final String DEFAULT_TELEOP_DEFENSE_POSITION_LIST = "None";
+    public final String DEFAULT_TELEOP_DEFENSE_COUNT = "None";
+    public final String DEFAULT_TELEOP_SHOOT_POSITION_LIST = "None";
+    public final String DEFAULT_TELEOP_SHOOT_COUNT = "None";
+    public final String DEFAULT_TELEOP_CHALLENGE_POSITION = "None";
+    public final String DEFAULT_TELEOP_SCALED_POSITION = "None";
+    public final String DEFAULT_TELEOP_BREECHED = "None";
+    public final String DEFAULT_TELEOP_CAPTURED = "None";
+    public final String DEFAULT_TELEOP_OTHER_INFORMATION = "None";
 
+
+
+
+
+    // Position lables
     // Setup position labels
     public final int SETUP_PERSON_NAME_INT = 0;
     public final int SETUP_TEAM_NAME_INT = 1;
@@ -77,6 +92,7 @@ public class Constants {
     public final int PITS_LOWER_RIGHT_CLAIM_INT = 14;
     public final int PITS_ASSISTED_SHOOTER_INT = 15;
     public final int PITS_SHOOTER_TYPE_INT = 16;
+
     public final int PITS_DRIVE_TYPE_INT = 17;
     public final int PITS_DRIVE_CONNECTION_INT = 18;
     public final int PITS_WHEEL_COUNT_INT = 19;
@@ -90,17 +106,38 @@ public class Constants {
     public final int PITS_QUALITY_INT = 27;
 
     // Auto position labels
+    public final int AUTO_DEFENSE_REACHED_INT = 0;
+    public final int AUTO_DEFENSE_REACHED_POSITION_INT = 1;
+    public final int AUTO_DEFENSE_CROSSED_INT = 2;
+    public final int AUTO_DEFENSE_CROSSED_POSITION_INT = 3;
+    public final int AUTO_SHOOT_POSITION_INT = 4;
+    public final int AUTO_OTHER_INFORMATION_INT = 5;
 
 
     // Teleop position labels
+    public final int TELEOP_DEFENSE_LIST_INT = 0;
+    public final int TELEOP_DEFENSE_POSITION_LIST_INT = 1;
+    public final int TELEOP_DEFENSE_COUNT_INT = 2;
+    public final int TELEOP_SHOOT_POSITION_LIST_INT = 3;
+    public final int TELEOP_SHOOT_COUNT_INT = 4;
+    public final int TELEOP_CHALLENGE_POSITION_INT = 5;
+    public final int TELEOP_SCALED_POSITION_INT = 6;
+    public final int TELEOP_BREECHED_INT = 7;
+    public final int TELEOP_CAPTURED_INT = 8;
+    public final int TELEOP_OTHER_INFORMATION_INT = 9;
+
+
+
 
 
     // Value Lables
+    // Setup
     public final String TIMESTAMP = "Time Stamp";
     public final String PERSON_NAME = "Person Name";
     public final String TEAM_NAME = "Team Name";
     public final String TEAM_NUMBER = "Team Number";
 
+    // Pits
     public final String PITS_SALLY_PORT = "Pits Claim Sally Port";
     public final String PITS_DRAWBRIDGE = "Pits Claim Drawbridge";
     public final String PITS_MOAT = "Pits Claim Moat";
@@ -131,21 +168,41 @@ public class Constants {
     public final String ROBOT_LENGTH = "Length";
     public final String ROBOT_QUALITY = "Build Quality";
 
-    public final String AUTO_ACTION_1 = "autoAction1";
-    public final String AUTO_ACTION_2 = "autoAction2";
-    public final String AUTO_ACTION_3 = "autoAction3";
-    public final String AUTO_ACTION_4 = "autoAction4";
-    public final String AUTO_ACTION_5 = "autoAction5";
+    // Auto
+    public final String AUTO_DEFENSE_REACHED = "Auto Defense Reached";
+    public final String AUTO_DEFENSE_REACHED_POSITION = "Auto Defense Reached Position";
+    public final String AUTO_DEFENSE_CROSSED = "Auto Defense Crossed";
+    public final String AUTO_DEFENSE_CROSSED_POSITION = "Auto Defense Crossed Position";
+    public final String AUTO_SHOOT_POSITION = "Auto Goal Shot Position";
+    public final String AUTO_OTHER_INFORMATION = "Optional Text Description";
 
-    public final String TELEOP_ACTION_1 = "teleopAction1";
-    public final String TELEOP_ACTION_2 = "teleopAction2";
-    public final String TELEOP_ACTION_3 = "teleopAction3";
-    public final String TELEOP_ACTION_4 = "teleopAction4";
-    public final String TELEOP_ACTION_5 = "teleopAction5";
+    // Teleop
+    public final String TELEOP_DEFENSE_LIST = "Teleop Defense Crossed";
+    public final String TELEOP_DEFENSE_POSITION_LIST = "Teleop Defense Crossed Position";
+    public final String TELEOP_DEFENSE_COUNT = "Teleop Defense Crossed Count";
+    public final String TELEOP_SHOOT_POSITION_LIST = "Teleop Goal Shot Position";
+    public final String TELEOP_SHOOT_COUNT = "Teleop Goal Shot Count";
+    public final String TELEOP_CHALLENGE_POSITION = "Teleop Challenge Position";
+    public final String TELEOP_SCALED_POSITION = "Teleop Scaled Position";
+    public final String TELEOP_BREECHED = "Teleop Breeched Status";
+    public final String TELEOP_CAPTURED = "Teleop Captured Status";
+    public final String TELEOP_OTHER_INFORMATION = "Optional Text Description";
+
+
+
+
 
     // Drawlables
     public final int[] DRIVE_TYPE_DRAWABLES = {R.drawable.tankdrive,R.drawable.omnidrive,R.drawable.mecanumdrive,R.drawable.swervedrive,R.drawable.holonomicdrive,R.drawable.butterflydrive,R.drawable.other};
     public final int[] WHEEL_TYPE_DRAWABLES = {R.drawable.mecanumwheel,R.drawable.omniwheel,R.drawable.tanktread,R.drawable.frictionwheel,R.drawable.frictionwheel,R.drawable.pneumaticwheel,R.drawable.other};
     public final int[] DRIVE_CONNECTION_TYPE_DRAWABLES = {R.drawable.beltconnection,R.drawable.chainconnection,R.drawable.shaftconnection,R.drawable.gearconnection,R.drawable.directconnection,R.drawable.other};
     public final int[] SHOOTER_TYPE_DRAWABLES = {R.drawable.pitchershooter,R.drawable.pneumaticshooter,R.drawable.surgicaltubingshooter,R.drawable.springshooter,R.drawable.kickershooter,R.drawable.miss,R.drawable.other};
+    public final int[] PICKUP_TYPE_DRAWABLES = new int[4];
+
+
+
+
+
+    // Picture codes
+    public final int REQUEST_IMAGE_CAPTURE = 0;
 }
